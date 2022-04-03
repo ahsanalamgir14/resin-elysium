@@ -2,6 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\admin\CouponController;
+use App\Http\Controllers\admin\SizeController;
+use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\CustomerController;
+use App\Http\Controllers\admin\HomeBannerController;
+use App\Http\Controllers\front\FrontController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +24,29 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-Auth::routes();
-Route::group(['middleware' => 'auth'], function () {
-    Route::any('/{any}', [HomeController::class, 'index'])->where('any', '^(?!api).*$');
+Auth::routes(['register' => false, 'reset' => false, 'verify'=>false]);
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/', 'index');
+    Route::get('/home', 'index');
+});
+Route::get('product-view', [ProductController::class, 'product_view']);
+Route::get('logout', [HomeController::class, 'logout']);
+
+// Route::any('/{any}', function () { return redirect('/home');})->where('any', '^(?!api).*$');
+
+// Route::get('admin', [AdminController::class, 'index']);
+// Route::get('admin/password_reset', [AdminController::class, 'password_reset']);
+// Route::post('auth', [AdminController::class, 'auth'])->name('admin.auth');
+// Route::post('admin/generate_link', [AdminController::class, 'generate_link']);
+// Route::get('admin/forgot_password_change/{id}',[AdminController::class,'forgot_password_change']);
+// Route::post('admin/forgot_password_change_process',[AdminController::class,'forgot_password_change_process']);
+
+Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
+    Route::resource('manage-customers', CustomerController::class);
+    Route::resource('manage-admins', AdminController::class);
+    Route::resource('manage-banners', HomeBannerController::class);
+    Route::resource('manage-products', ProductController::class);
+    Route::resource('manage-orders', OrderController::class);
+    Route::resource('manage-categories', CategoryController::class);
+    Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin_dashboard');
 });

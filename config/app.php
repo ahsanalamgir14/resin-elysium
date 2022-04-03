@@ -163,11 +163,12 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
 
         /*
          * Package Service Providers...
          */
-
+        'Prologue\Alerts\AlertsServiceProvider',
         /*
          * Application Service Providers...
          */
@@ -191,7 +192,8 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // ...
+        'Alert' => 'Prologue\Alerts\Facades\Alert',
     ])->toArray(),
+    'Alert' => 'Prologue\Alerts\Facades\Alert',
 
 ];
