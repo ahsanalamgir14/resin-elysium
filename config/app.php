@@ -168,7 +168,7 @@ return [
         /*
          * Package Service Providers...
          */
-        'Prologue\Alerts\AlertsServiceProvider',
+        Mckenziearts\Notify\LaravelNotifyServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -192,8 +192,6 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        'Alert' => 'Prologue\Alerts\Facades\Alert',
     ])->toArray(),
-    'Alert' => 'Prologue\Alerts\Facades\Alert',
 
 ];

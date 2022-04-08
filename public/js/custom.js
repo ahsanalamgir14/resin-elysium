@@ -41,3 +41,27 @@ function changeTypeConfirm() {
 $('tr[data-href]').on("click", function () {
     document.location = $(this).data('href');
 });
+
+
+function add_to_cart(el, product_id) {
+
+    var qty = $(el).parent().find("input").val();
+    alert(product_id, qty);
+    // $('#add-to-cart-form').preventDefault(e);
+    $.ajax({
+        url: 'api/add-to-cart',
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: {
+            product_id: product_id,
+            qty: qty
+        },
+        success: function (data) {
+            if(data.status){
+                window.location.reload();
+            }
+        }
+    });
+}
