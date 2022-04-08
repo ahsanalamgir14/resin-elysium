@@ -40,10 +40,12 @@
   <!-- notif -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
   <script src="{{ asset('js/custom.js') }}" defer></script>
+  @notifyCss
 
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
+  <x:notify-messages />
   <div class="wrapper">
 
     <!-- Preloader -->
@@ -229,7 +231,7 @@
   </div>
 
   <!-- ./wrapper -->
-
+  @notifyJs
   <!-- jQuery -->
   <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
   <!-- jQuery UI 1.11.4 -->

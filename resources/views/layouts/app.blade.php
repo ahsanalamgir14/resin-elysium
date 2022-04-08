@@ -25,14 +25,17 @@
     <!-- Styles -->
     <link href="{{ URL::asset('css/custom.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @notifyCss
 </head>
 
 <body>
+    <x:notify-messages />
     <div id="app">
         <main>
             @yield('content')
         </main>
     </div>
+    @notifyJs
 </body>
 
 </html>

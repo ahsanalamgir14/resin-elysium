@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" id="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Resin Elysium') }}</title>
 
     <!-- CSRF Token -->
@@ -39,6 +40,8 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    @notifyCss
+    @notifyJs
 
     <!-- Styles -->
     <!-- <link href="{{ URL::asset('css/custom.css') }}" rel="stylesheet" type="text/css"> -->
@@ -46,6 +49,7 @@
 </head>
 
 <body>
+    <x:notify-messages />
     <div id="app">
         <main>
             <div class="body-wrapper">
@@ -615,6 +619,7 @@
         </main>
     </div>
 
+    @notifyJs
     <!-- Body Wrapper End Here -->
     <script src="{{ asset('js/vendor/jquery-1.12.4.min.js') }}"></script>
     <script src="{{ asset('js/vendor/popper.min.js') }}"></script>

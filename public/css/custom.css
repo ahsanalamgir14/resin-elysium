@@ -1,4 +1,4 @@
-main{
+main {
 
     background: linear-gradient(135deg, #fafafa 22px, rgba(0, 0, 0, 0.04) 22px, rgba(0, 0, 0, 0.04) 24px, transparent 24px, transparent 67px, rgba(0, 0, 0, 0.04) 67px, rgba(0, 0, 0, 0.04) 69px, transparent 69px), linear-gradient(225deg, #fafafa 22px, rgba(0, 0, 0, 0.04) 22px, rgba(0, 0, 0, 0.04) 24px, transparent 24px, transparent 67px, rgba(0, 0, 0, 0.04) 67px, rgba(0, 0, 0, 0.04) 69px, transparent 69px) 0 64px;
     background-color: #fafafa;
@@ -9,18 +9,19 @@ main{
     width: 100vw;
     /* margin: 0; */
 }
-.text-input{
+
+.text-input {
     height: 50px !important;
     /* padding: 0.75em 0.75em 0 0.75em !important; */
     border-radius: 4px 4px 0 0 !important;
     background: #ced4da !important;
-    background-color: rgba(0,0,0,.04) !important;
+    background-color: rgba(0, 0, 0, .04) !important;
     border: none !important;
     border-bottom: 1px solid !important;
     box-shadow: none !important;
- }
+}
 
-.login-content{
+.login-content {
     box-sizing: border-box;
     display: flex;
     place-content: center;
@@ -30,19 +31,21 @@ main{
     vertical-align: middle;
 }
 
-.container > .row {
+.container>.row {
     width: 100%;
 }
-.container > .row > .col-md-8{
+
+.container>.row>.col-md-8 {
     width: 400px;
 }
 
-.card{
+.card {
     background: white;
     border-radius: 8px !important;
     box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
 }
-.card-header{
+
+.card-header {
     background: #1976d2 !important;
     color: white;
     box-sizing: border-box;
@@ -54,10 +57,12 @@ main{
     border-top-left-radius: 8px !important;
     border-top-right-radius: 8px !important;
 }
+
 .card-body {
     padding: 20px 20px !important;
 }
-.remember-section{
+
+.remember-section {
     display: flex;
     align-items: center;
     vertical-align: middle;
@@ -67,18 +72,30 @@ main{
     margin-top: 10px;
 }
 
-.align-icon{
+.align-icon {
     height: 50px;
     border-radius: none !important;
     box-shadow: none;
-    background-color: rgba(0,0,0,.04) !important;
+    background-color: rgba(0, 0, 0, .04) !important;
     border-bottom: 1px solid !important;
     border: none;
     outline: none;
 }
 
-.input-group-append > span{
+.input-group-append>span {
     border-radius: 0px !important;
     border: none;
 
+}
+
+.notify {
+    z-index: 999;
+}
+
+.notify>.items-end {
+    align-items: flex-end;
+}
+
+.notify>.justify-center {
+    justify-content: right;
 }

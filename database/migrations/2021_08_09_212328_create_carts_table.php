@@ -17,7 +17,7 @@ class CreateCartsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id'); //many to one user 
             $table->unsignedBigInteger('product_id'); //one to one
-            $table->enum('user_type', ['reg', 'non-reg']);
+            $table->enum('user_type', ['user', 'guest']);
             $table->integer('qty');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();
