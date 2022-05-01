@@ -31,7 +31,8 @@
     <script src="{{ asset('js/vendor/modernizr-2.8.3.min.js') }}"></script>
 
     <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
     <script src="{{ asset('js/custom.js') }}" defer></script>
 
@@ -74,13 +75,15 @@
                                         <ul class="ht-menu">
                                             <!-- Begin Setting Area -->
                                             @auth
-                                            <li><a href="/my-account">My Account</a></li>
-                                            <li><a href="/my-orders">My Orders</a></li>
-                                            <li><a href="/profile">Profile</a></li>
-                                            <li><a href="/logout">Logout</a></li>
+                                                <li><a href="/my-account">My Account</a></li>
+                                                <li><a href="/my-orders">My Orders</a></li>
+                                                <li><a href="/cart-view">Cart</a></li>
+                                                <li><a href="/profile">Profile</a></li>
+                                                <li><a href="/logout">Logout</a></li>
                                             @endauth
                                             @guest
-                                            <li><a href="/login">Login</a></li>
+                                                <li><a href="/cart-view">Cart</a></li>
+                                                <li><a href="/login">Login</a></li>
                                             @endguest
                                             <!-- Setting Area End Here -->
                                         </ul>
@@ -98,7 +101,7 @@
                                 <!-- Begin Header Logo Area -->
                                 <div class="col-lg-3">
                                     <div class="logo pb-sm-30 pb-xs-30">
-                                        <a href="{{url('/')}}">
+                                        <a href="{{ url('/') }}">
                                             <img src="{{ asset('storage/images/menu/logo/1.jpg') }}" alt="">
                                         </a>
                                     </div>
@@ -181,65 +184,74 @@
                                             <option value="16">Accessories</option>
                                         </select>
                                         <input type="text" placeholder="Enter your search key ...">
-                                        <button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
+                                        <button class="li-btn" type="submit"><i
+                                                class="fa fa-search"></i></button>
                                     </form>
                                     <!-- Header Middle Searchbox Area End Here -->
                                     <!-- Begin Header Middle Right Area -->
                                     <div class="header-middle-right">
                                         <ul class="hm-menu">
                                             <!-- Begin Header Middle Wishlist Area -->
-                                            <li class="hm-wishlist">
+                                            <!-- <li class="hm-wishlist">
                                                 <a href="wishlist.html">
                                                     <span class="cart-item-count wishlist-item-count">0</span>
                                                     <i class="fa fa-heart-o"></i>
                                                 </a>
-                                            </li>
+                                            </li> -->
                                             <!-- Header Middle Wishlist Area End Here -->
                                             <!-- Begin Header Mini Cart Area -->
                                             <li class="hm-minicart">
                                                 <div class="hm-minicart-trigger">
                                                     <span class="item-icon"></span>
-                                                    <span class="item-text">£80.00
-                                                        <span class="cart-item-count">2</span>
+                                                    @if (!empty($cart_items))
+                                                        <span class="item-text">Rs. {{ $total }}
+                                                            <span
+                                                                class="cart-item-count">{{ count($cart_items) }}</span>
+                                                        @else
+                                                            <span class="item-text">Rs. 0.00
+                                                                <span class="cart-item-count">0</span>
+                                                    @endif
                                                     </span>
                                                 </div>
                                                 <span></span>
                                                 <div class="minicart">
-                                                    <ul class="minicart-product-list">
-                                                        <li>
-                                                            <a href="single-product.html" class="minicart-product-image">
-                                                                <img src="images/product/small-size/5.jpg" alt="cart products">
+                                                    @if (isset($cart_items) && !empty($cart_items))
+                                                        <ul class="minicart-product-list">
+                                                            @foreach ($cart_items as $item)
+                                                                <li>
+                                                                    <a href="" class="minicart-product-image">
+                                                                        <img class="minicart-image"
+                                                                            src="{{ 'storage/products/' . $item->product->main_image }}"
+                                                                            alt="cart products">
+                                                                    </a>
+                                                                    <div class="minicart-product-details">
+                                                                        <h6><a
+                                                                                href="single-product.html">{{ $item->product->name }}</a>
+                                                                        </h6>
+                                                                        <span>{{ $item->product->price }} x
+                                                                            {{ $item->qty }}</span>
+                                                                    </div>
+                                                                    <button class="close" title="Remove">
+                                                                        <i class="fa fa-close"></i>
+                                                                    </button>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                        <p class="minicart-total">SUBTOTAL: <span>Rs.
+                                                                {{ $total }}.00</span></p>
+                                                        <div class="minicart-button">
+                                                            <a href="{{ url('cart-view') }}"
+                                                                class="li-button li-button-fullwidth li-button-dark">
+                                                                <span>View Full Cart</span>
                                                             </a>
-                                                            <div class="minicart-product-details">
-                                                                <h6><a href="single-product.html">Aenean eu tristique</a></h6>
-                                                                <span>£40 x 1</span>
-                                                            </div>
-                                                            <button class="close" title="Remove">
-                                                                <i class="fa fa-close"></i>
-                                                            </button>
-                                                        </li>
-                                                        <li>
-                                                            <a href="single-product.html" class="minicart-product-image">
-                                                                <img src="images/product/small-size/6.jpg" alt="cart products">
+                                                            <a href="{{ url('checkout-view') }}"
+                                                                class="li-button li-button-fullwidth">
+                                                                <span>Checkout</span>
                                                             </a>
-                                                            <div class="minicart-product-details">
-                                                                <h6><a href="single-product.html">Aenean eu tristique</a></h6>
-                                                                <span>£40 x 1</span>
-                                                            </div>
-                                                            <button class="close" title="Remove">
-                                                                <i class="fa fa-close"></i>
-                                                            </button>
-                                                        </li>
-                                                    </ul>
-                                                    <p class="minicart-total">SUBTOTAL: <span>£80.00</span></p>
-                                                    <div class="minicart-button">
-                                                        <a href="shopping-cart.html" class="li-button li-button-fullwidth li-button-dark">
-                                                            <span>View Full Cart</span>
-                                                        </a>
-                                                        <a href="checkout.html" class="li-button li-button-fullwidth">
-                                                            <span>Checkout</span>
-                                                        </a>
-                                                    </div>
+                                                        </div>
+                                                    @else
+                                                        <p class="text-center">Empty Cart</p>
+                                                    @endif
                                                 </div>
                                             </li>
                                             <!-- Header Mini Cart Area End Here -->
@@ -262,15 +274,18 @@
                                         <nav>
                                             <ul>
                                                 @foreach ($categories as $category)
-                                                <li class="dropdown-holder"><a href="{{url('categories/'. $category->slug)}}">{{$category->name}}</a>
-                                                    @if (count($category->sub_categories) > 0)
-                                                    <ul class="hb-dropdown">
-                                                        @foreach ($category->sub_categories as $sub_category)
-                                                        <li><a href="{{url('categories/'. $sub_category->slug)}}">{{$sub_category->name}}</a></li>
-                                                        @endforeach
-                                                    </ul>
-                                                    @endif
-                                                </li>
+                                                    <li class="dropdown-holder"><a
+                                                            href="{{ url('categories/' . $category->slug) }}">{{ $category->name }}</a>
+                                                        @if (count($category->sub_categories) > 0)
+                                                            <ul class="hb-dropdown">
+                                                                @foreach ($category->sub_categories as $sub_category)
+                                                                    <li><a
+                                                                            href="{{ url('categories/' . $sub_category->slug) }}">{{ $sub_category->name }}</a>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        @endif
+                                                    </li>
                                                 @endforeach
                                                 <!-- <li class="megamenu-holder"><a href="shop-left-sidebar.html">Shop</a>
                                                     <ul class="megamenu hb-megamenu">
@@ -447,7 +462,8 @@
                                 <div class="col-lg-3 col-md-6 col-sm-6 pb-sm-55 pb-xs-55">
                                     <div class="li-shipping-inner-box">
                                         <div class="shipping-icon">
-                                            <img src="{{ asset('storage/images/shipping-icon/1.png') }}" alt="Shipping Icon">
+                                            <img src="{{ asset('storage/images/shipping-icon/1.png') }}"
+                                                alt="Shipping Icon">
                                         </div>
                                         <div class="shipping-text">
                                             <h2>Free Delivery</h2>
@@ -460,7 +476,8 @@
                                 <div class="col-lg-3 col-md-6 col-sm-6 pb-sm-55 pb-xs-55">
                                     <div class="li-shipping-inner-box">
                                         <div class="shipping-icon">
-                                            <img src="{{ asset('storage/images/shipping-icon/2.png') }}" alt="Shipping Icon">
+                                            <img src="{{ asset('storage/images/shipping-icon/2.png') }}"
+                                                alt="Shipping Icon">
                                         </div>
                                         <div class="shipping-text">
                                             <h2>Safe Payment</h2>
@@ -473,7 +490,8 @@
                                 <div class="col-lg-3 col-md-6 col-sm-6 pb-xs-30">
                                     <div class="li-shipping-inner-box">
                                         <div class="shipping-icon">
-                                            <img src="{{ asset('storage/images/shipping-icon/3.png') }}" alt="Shipping Icon">
+                                            <img src="{{ asset('storage/images/shipping-icon/3.png') }}"
+                                                alt="Shipping Icon">
                                         </div>
                                         <div class="shipping-text">
                                             <h2>Shop with Confidence</h2>
@@ -486,7 +504,8 @@
                                 <div class="col-lg-3 col-md-6 col-sm-6 pb-xs-30">
                                     <div class="li-shipping-inner-box">
                                         <div class="shipping-icon">
-                                            <img src="{{ asset('storage/images/shipping-icon/4.png') }}" alt="Shipping Icon">
+                                            <img src="{{ asset('storage/images/shipping-icon/4.png') }}"
+                                                alt="Shipping Icon">
                                         </div>
                                         <div class="shipping-text">
                                             <h2>24/7 Help Center</h2>
@@ -511,7 +530,8 @@
                                     <div class="footer-logo">
                                         <img src="{{ asset('storage/images/menu/logo/1.jpg') }}" alt="Footer Logo">
                                         <p class="info">
-                                            We are a team of designers and developers that create high quality HTML Template
+                                            We are a team of designers and developers that create high quality HTML
+                                            Template
                                             & Woocommerce, Shopify Theme.
                                         </p>
                                     </div>
@@ -539,7 +559,7 @@
                                             <li><a href="#">Prices drop</a></li>
                                             <li><a href="#">New products</a></li>
                                             <li><a href="#">Best sales</a></li>
-                                            <li><a href="#">Contact us</a></li>
+                                            <li><a href="{{ url('contact-us') }}">Contact us</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -552,7 +572,7 @@
                                             <li><a href="#">Delivery</a></li>
                                             <li><a href="#">Legal Notice</a></li>
                                             <li><a href="#">About us</a></li>
-                                            <li><a href="#">Contact us</a></li>
+                                            <li><a href="{{ url('contact-us') }}">Contact us</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -563,32 +583,38 @@
                                         <h3 class="footer-block-title">Follow Us</h3>
                                         <ul class="social-link">
                                             <li class="twitter">
-                                                <a href="https://twitter.com/" data-toggle="tooltip" target="_blank" title="Twitter">
+                                                <a href="https://twitter.com/" data-toggle="tooltip" target="_blank"
+                                                    title="Twitter">
                                                     <i class="fa fa-twitter"></i>
                                                 </a>
                                             </li>
                                             <li class="rss">
-                                                <a href="https://rss.com/" data-toggle="tooltip" target="_blank" title="RSS">
+                                                <a href="https://rss.com/" data-toggle="tooltip" target="_blank"
+                                                    title="RSS">
                                                     <i class="fa fa-rss"></i>
                                                 </a>
                                             </li>
                                             <li class="google-plus">
-                                                <a href="https://www.plus.google.com/discover" data-toggle="tooltip" target="_blank" title="Google Plus">
+                                                <a href="https://www.plus.google.com/discover" data-toggle="tooltip"
+                                                    target="_blank" title="Google Plus">
                                                     <i class="fa fa-google-plus"></i>
                                                 </a>
                                             </li>
                                             <li class="facebook">
-                                                <a href="https://www.facebook.com/" data-toggle="tooltip" target="_blank" title="Facebook">
+                                                <a href="https://www.facebook.com/" data-toggle="tooltip"
+                                                    target="_blank" title="Facebook">
                                                     <i class="fa fa-facebook"></i>
                                                 </a>
                                             </li>
                                             <li class="youtube">
-                                                <a href="https://www.youtube.com/" data-toggle="tooltip" target="_blank" title="Youtube">
+                                                <a href="https://www.youtube.com/" data-toggle="tooltip" target="_blank"
+                                                    title="Youtube">
                                                     <i class="fa fa-youtube"></i>
                                                 </a>
                                             </li>
                                             <li class="instagram">
-                                                <a href="https://www.instagram.com/" data-toggle="tooltip" target="_blank" title="Instagram">
+                                                <a href="https://www.instagram.com/" data-toggle="tooltip"
+                                                    target="_blank" title="Instagram">
                                                     <i class="fa fa-instagram"></i>
                                                 </a>
                                             </li>
@@ -597,10 +623,13 @@
                                     <!-- Begin Footer Newsletter Area -->
                                     <div class="footer-newsletter">
                                         <h4>Sign up to newsletter</h4>
-                                        <form action="#" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="footer-subscribe-form validate" target="_blank" novalidate>
+                                        <form action="#" method="post" id="mc-embedded-subscribe-form"
+                                            name="mc-embedded-subscribe-form" class="footer-subscribe-form validate"
+                                            target="_blank" novalidate>
                                             <div id="mc_embed_signup_scroll">
                                                 <div id="mc-form" class="mc-form subscribe-form form-group">
-                                                    <input id="mc-email" type="email" autocomplete="off" placeholder="Enter your email" />
+                                                    <input id="mc-email" type="email" autocomplete="off"
+                                                        placeholder="Enter your email" />
                                                     <button class="btn" id="mc-submit">Subscribe</button>
                                                 </div>
                                             </div>

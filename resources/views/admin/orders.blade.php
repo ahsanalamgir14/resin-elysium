@@ -33,29 +33,28 @@
                         <h3 class="card-title">Orders Data</h3>
                     </div>
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table id="example1" class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
-                                    <th>Name</th>
+                                    <th>Order #</th>
+                                    <th>User Id</th>
+                                    <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Email</th>
-                                    <!-- <th>Rent</th> -->
-                                    <!-- <th>Rent Status</th>
-                                    <th>ID card Number</th> -->
+                                    <th>Order Total</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- @foreach ($data as $customer) -->
-                                <!-- <tr class='clickable-row' data-href='/products/{{$customer->id}}' role="button"> -->
-                                <!-- <td>{{$customer->id}}</td>
-                                    <td>{{$customer->first_name}}</td>
-                                    <td>{{$customer->last_name}}</td>
-                                    <td>{{$customer->email}}</td> -->
-                                <!-- <td>{{$customer->rent}}</td> -->
-                                <!-- <td>{{$customer->id}}</td> -->
-                                <!-- </tr> -->
-                                <!-- @endforeach -->
+                                @foreach ($data as $order)
+                                <tr class='clickable-row' data-href='/admin/manage-orders/{{$order->id}}' role="button">
+                                <td>{{$order->id}}</td>
+                                <td>{{$order->user_id}}</td>
+                                <td>{{$order->first_name}}</td>
+                                <td>{{$order->last_name}}</td>
+                                <td>{{$order->email}}</td>
+                                <td>{{$order->total_amount}}</td>
+                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

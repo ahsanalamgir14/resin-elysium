@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Cart;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Cart;
+use App\Models\Category;
 
 class CartController extends Controller
 {
@@ -137,5 +138,26 @@ class CartController extends Controller
             'title' => 'Product Added!',
             'message' => 'Product added to cart successfully'
         ], 200);
+    }
+
+    public function cart_view(Request $request)
+    {
+        $total = 0;
+        $data['categories'] = Category::all();
+        if (Auth::check()) {
+            $cart = Cart::with('product')->where(['user_id' => $request->user()->id])->get();
+        } else {
+            if ($request->session()->has('guest_user_id')) {
+                $guest_user_id = $request->session()->get('guest_user_id');
+            }
+            $cart = Cart::with('product')->where(['user_id' => $guest_user_id])->get();
+        }
+        foreach ($cart as $item) {
+            $total += $item->product->price * $item->qty;
+        }
+        $data['cart_items'] = $cart;
+        // dd($data['cart_items']);
+        $data['total'] = $total;
+        return view('front.cart-view', $data);
     }
 }

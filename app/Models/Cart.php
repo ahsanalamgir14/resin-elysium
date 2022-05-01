@@ -19,8 +19,8 @@ class Cart extends Model
     {
         return $this->hasMany(Category::class, 'parent_id');
     }
-    function update_cart($data)
+    function product()
     {
-        
+        return $this->hasOne(Product::class, 'id', 'product_id');
     }
 }

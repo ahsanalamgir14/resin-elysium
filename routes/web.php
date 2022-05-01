@@ -11,6 +11,9 @@ use App\Http\Controllers\admin\CustomerController;
 use App\Http\Controllers\admin\HomeBannerController;
 use App\Http\Controllers\front\FrontController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Auth\LoginController;
 
 /*
@@ -30,8 +33,15 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/home', 'index');
 });
 Route::get('product-view', [ProductController::class, 'product_view']);
+Route::get('cart-view', [CartController::class, 'cart_view']);
+Route::get('checkout-view', [CheckoutController::class, 'checkout_view']);
+Route::get('my-orders', [OrderController::class, 'get_orders']);
+Route::get('order-info', [OrderController::class, 'order_information']);
 Route::get('logout', [HomeController::class, 'logout']);
-
+Route::group(['middleware' => ['auth']], function () {
+    Route::post('place-order', [OrderController::class, 'place_order'])->name('place-order');
+});
+Route::resource('contact-us', ContactController::class);
 // Route::any('/{any}', function () { return redirect('/home');})->where('any', '^(?!api).*$');
 
 // Route::get('admin', [AdminController::class, 'index']);

@@ -26,8 +26,13 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
+        if(!Auth::check()){
+            if (!$request->session()->has('guest_user_id')) {
+                $request->session()->put(['guest_user_id' => mt_rand(10000000, 99999999)]);
+            }
+        }
         $result['banners'] = HomeBanner::where(['status'=>1])->get();
         $result['categories'] = Category::with('sub_categories')->where(['status'=>1])->get();
         $result['products'] = Product::with('category')->where(['status'=>1])->get();
