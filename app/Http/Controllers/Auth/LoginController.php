@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use \Illuminate\Http\Request;
 use Log;
 
@@ -43,6 +44,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
+        $request->session()->forget('guest_user_id');
         // to admin dashboard
         if ($user->isAdmin()) {
             return redirect(route('admin_dashboard'));

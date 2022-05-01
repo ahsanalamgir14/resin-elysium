@@ -302,7 +302,7 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                        <h4><a class="product_name" href="product-view?slug={{$product->slug}}">{{$related_product->name}}</a></h4>
+                                        <h4><a class="product_name" href="product-view?slug={{$related_product->slug}}">{{$related_product->name}}</a></h4>
                                         <div class="price-box">
                                             <span class="new-price">Rs. {{$related_product->price}}</span>
                                         </div>

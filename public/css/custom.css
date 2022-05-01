@@ -88,14 +88,7 @@ main {
 
 }
 
-.notify {
-    z-index: 999;
-}
-
-.notify>.items-end {
-    align-items: flex-end;
-}
-
-.notify>.justify-center {
-    justify-content: right;
+.submit-lock-icon {
+    font-size: 30px;
+    position: relative;
 }

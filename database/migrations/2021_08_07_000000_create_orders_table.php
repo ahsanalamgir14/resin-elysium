@@ -18,7 +18,8 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('user_id'); //one to one
             $table->unsignedBigInteger('order_status_id'); //one to one
             $table->unsignedBigInteger('payment_id'); //one to one
-            $table->string('name');
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('email');
             $table->string('mobile');
             $table->string('address');
