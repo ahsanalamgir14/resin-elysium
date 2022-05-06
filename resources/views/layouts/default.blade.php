@@ -69,6 +69,9 @@
       <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">
         <li class="nav-item d-none d-sm-inline-block">
+          <a href="{{url('home')}}" target="_blank" class="nav-link">Visit Store</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
           <a href="javascript:void(0)" class="nav-link">{{Auth::user()->first_name}}</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
@@ -205,6 +208,12 @@
               <a href="{{url('admin/manage-banners')}}" class="nav-link @yield('banners')">
                 <i class="nav-icon fas fa-random"></i>
                 <p>Banners</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{url('home')}}" target="_blank" class="nav-link">
+                <i class="nav-icon fas fa-location-arrow"></i>
+                <p>Visit Store</p>
               </a>
             </li>
             <li class="nav-item">

@@ -402,10 +402,28 @@ a.review-links {
 	text-align: center;
 }
 
+a.links-primary {
+	background: #fed700 none repeat scroll 0 0;
+	color: #242424 !important;
+	display: inline-block;
+	font-family: Montserrat;
+	font-size: 14px;
+	font-weight: 700;
+	height: 30px;
+	line-height: 30px;
+	position: relative;
+	text-transform: uppercase;
+	transition: all 0.3s ease-in-out 0s;
+	width: 90px;
+	text-align: center;
+}
+
 a.links:hover,
-a.links-2:hover {
+a.links-2:hover,
+a.links-primary:hover {
 	background: #333333 none repeat scroll 0 0;
-	color: #fff;
+	color: #fff !important;
+	cursor: pointer;
 }
 
 a.review-links {
@@ -3198,7 +3216,7 @@ textarea:focus {
 /*  2.7 Li's Static Home Banner
 /*----------------------------------------*/
 .li-static-home-image {
-	background-image: url(storage/images/bg-banner/1.jpg);
+	background-image: url(storage/images/bg-banner/4.jpg);
 	background-size: cover;
 	height: 400px;
 	background-repeat: no-repeat;
@@ -3393,7 +3411,7 @@ textarea:focus {
 	margin: 0;
 	font-weight: 400;
 	line-height: 24px;
-	margin-bottom: 15px;
+	/* margin-bottom: 15px; */
 }
 
 .footer-static-middle ul.des>li span {

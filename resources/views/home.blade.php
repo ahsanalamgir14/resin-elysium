@@ -66,10 +66,10 @@
                 <div id="li-new-product" class="tab-pane active show" role="tabpanel">
                     <div class="row">
                         <div class="product-active owl-carousel">
-                            <div class="col-lg-12">
+                            {{-- <div class="col-lg-12"> --}}
                                 <!-- single-product-wrap start -->
                                 @foreach ($products as $product)
-                                <div class="single-product-wrap">
+                                <div class="single-product-wrap card-item-padding">
                                     <div class="product-image">
                                         <a href="product-view?slug={{$product->slug}}">
                                             <img src="{{ asset('storage/products/' . $product->main_image) }}" alt="{{$product->main_image}}">
@@ -108,7 +108,7 @@
                                 </div>
                                 @endforeach
                                 <!-- single-product-wrap end -->
-                            </div>
+                            {{-- </div> --}}
                         </div>
                     </div>
                 </div>
@@ -208,6 +208,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="default-btn text-center mt-4">
+                <a href="{{ url('all-products') }}" class="links">Browse ALL</a>
             </div>
         </div>
     </div>

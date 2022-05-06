@@ -37,6 +37,8 @@ Route::get('cart-view', [CartController::class, 'cart_view']);
 Route::get('checkout-view', [CheckoutController::class, 'checkout_view']);
 Route::get('my-orders', [OrderController::class, 'get_orders']);
 Route::get('order-info', [OrderController::class, 'order_information']);
+Route::any('all-products', [ProductController::class, 'show_all_products'])->name('product-search');
+Route::any('search', [HomeController::class, 'search'])->name('search');
 Route::get('logout', [HomeController::class, 'logout']);
 Route::group(['middleware' => ['auth']], function () {
     Route::post('place-order', [OrderController::class, 'place_order'])->name('place-order');

@@ -21,6 +21,7 @@ class ProductController extends Controller
     {
         // $result['data'] = Product::where(['status'=>1])->get();
         $result['data'] = Product::all();
+        // dd($result['data']);
         return view('admin.products', $result);
     }
 
@@ -182,10 +183,39 @@ class ProductController extends Controller
         $result['categories'] = Category::all();
         $result['product'] = Product::with('category')->where('slug', $request->slug)->first();
         $result['related_products'] = Product::with('category')->where('category_id', $result['product']->category_id)
-                                                ->where('slug', '!=', $request->slug)->get();
+            ->where('slug', '!=', $request->slug)->get();
         // dd($result['related_products']);
         return view('front.product-view', $result);
     }
+
+    public function show_all_products(Request $request)
+    {
+        $result['categories'] = Category::with('sub_categories')->get();
+        // dd($result['categories']);
+        $query = Product::whereNotNull('id');
+        if ($request->category) {
+            $query->where('category_id', $request->category);
+        }
+        if ($request->sort) {
+            $sort_by = $request->sort;
+            if ($sort_by == 'name_asc') {
+                $query->orderBy('name', 'asc');
+            } else if ($sort_by == 'name_desc') {
+                $query->orderBy('name', 'desc');
+            } else if ($sort_by == 'price_asc') {
+                $query->orderBy('price', 'asc');
+            } else if ($sort_by == 'price_desc') {
+                $query->orderBy('price', 'desc');
+            }
+        }
+        $query = $query->paginate(20);
+        $result['products'] = $query;
+        return view('front.products-view', $result);
+    }
+
+
+
+
 
     public function manage_product($id = NULL)
     {
