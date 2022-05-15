@@ -115,6 +115,80 @@ function applyFilter() {
     alert('Filter will be applied');
 }
 
-function applySortBy(){
+function applySortBy() {
     $('#filterForm').trigger('submit');
 }
+
+async function countryChange(code) {
+    $.ajax({
+        type: 'get',
+        // data: {'code': code},
+        url: '/api/get-states?code=' + code,
+        dataType: 'json',
+        success: function (res) {
+            if (res.status) {
+                var select = $('#selectState').empty();
+                select.append('<option value="">--Select State </option>');
+                $.each(res.data, function (i, item) {
+                    select.append('<option value="'
+                        + item.code
+                        + '">'
+                        + item.name
+                        + '</option>');
+                });
+            }
+        },
+        error: function (res) {
+            var select = $('#selectState').empty();
+            select.append('<option value="">--Please Select Country First</option>');
+        }
+    });
+}
+
+function stateChange(code) {
+    $.ajax({
+        type: 'get',
+        // data: {'code': code},
+        url: '/api/get-cities?code=' + code,
+        dataType: 'json',
+        success: function (res) {
+            if (res.status) {
+                var select = $('#selectCity').empty();
+                select.append('<option value="">--Select City </option>');
+                $.each(res.data, function (i, item) {
+                    select.append('<option value="'
+                        + item.code
+                        + '">'
+                        + item.name
+                        + '</option>');
+                });
+            }
+        },
+        error: function (res) {
+            var select = $('#selectState').empty();
+            select.append('<option value="">--Please Select State First</option>');
+        }
+    });
+}
+
+//page loads
+$(function () {
+    var countryCode = $('#selectCountry').val();
+    var stateCode = $('#stateCode').val();
+    var cityCode = $('#cityCode').val();
+
+    if (countryCode) {
+        countryChange(countryCode);
+        setTimeout(
+            function () {
+                $('#selectState option[value=' + stateCode + ']').prop("selected", true);
+            }, 1000
+        );
+        stateChange(stateCode);
+        setTimeout(
+            function () {
+                $('#selectCity option[value=' + cityCode + ']').prop("selected", true);
+            }, 1000
+        );
+    }
+});

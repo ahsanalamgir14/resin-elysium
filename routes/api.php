@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CommonController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('add-to-cart', [CartController::class, 'add_to_cart'])->name('add-to-cart');
 Route::post('search', [HomeController::class, 'search'])->name('search');
+Route::get('get-states', [CommonController::class, 'get_states']);
+Route::get('get-cities', [CommonController::class, 'get_cities']);

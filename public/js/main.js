@@ -42,10 +42,11 @@ Note: main.js, All Default Scripting Languages For This Theme Included In This F
 	/*----------------------------------------*/
 	/* 	01. Li's Meanmenu
 	/*----------------------------------------*/
-	jQuery('.hb-menu nav').meanmenu({
-		meanMenuContainer: '.mobile-menu',
-		meanScreenWidth: "991"
-	})
+	// self-changes
+	// jQuery('.hb-menu nav').meanmenu({
+	// 	meanMenuContainer: '.mobile-menu',
+	// 	meanScreenWidth: "991"
+	// })
 	/*----------------------------------------*/
 	/*  02. Header Dropdown
 	/*----------------------------------------*/

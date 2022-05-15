@@ -165,7 +165,8 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::find($id);
-        $product->images = json_decode($product->images);
+        // $product->images = json_decode($product->images);
+        $product->images = $product->images;
         if (Storage::disk('public')->exists('products/' . $product->main_image)) {
             unlink('storage/products/' . $product->main_image);
         }

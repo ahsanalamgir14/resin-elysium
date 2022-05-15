@@ -35,7 +35,7 @@
                         <h3 class="card-title">Admins Data</h3>
                     </div>
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table id="example1" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
                                     <th>Id</th>
@@ -49,7 +49,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($data as $customer)
-                                <tr class='clickable-row' data-href='/rooms/{{$customer->id}}' role="button">
+                                <tr class='clickable-row' data-href='manage-admins/{{$customer->id}}' role="button">
                                     <td>{{$customer->id}}</td>
                                     <td>{{$customer->first_name}}</td>
                                     <td>{{$customer->last_name}}</td>

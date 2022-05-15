@@ -35,27 +35,22 @@
                         <h3 class="card-title">Customers Data</h3>
                     </div>
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table id="example1" class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>Id</th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Email</th>
-                                    <!-- <th>Rent</th> -->
-                                    <!-- <th>Rent Status</th>
-                                    <th>ID card Number</th> -->
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($data as $customer)
-                                <tr class='clickable-row' data-href='/rooms/{{$customer->id}}' role="button">
+                                <tr class='clickable-row' data-href='/admin/manage-customers/{{$customer->id}}' role="button">
                                     <td>{{$customer->id}}</td>
                                     <td>{{$customer->first_name}}</td>
                                     <td>{{$customer->last_name}}</td>
                                     <td>{{$customer->email}}</td>
-                                    <!-- <td>{{$customer->rent}}</td> -->
-                                    <!-- <td>{{$customer->id}}</td> -->
                                 </tr>
                                 @endforeach
                             </tbody>

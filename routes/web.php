@@ -14,7 +14,6 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +26,7 @@ use App\Http\Controllers\Auth\LoginController;
 |
 */
 
-Auth::routes(['register' => false, 'reset' => false, 'verify'=>false]);
+Auth::routes(['register' => false, 'reset' => false, 'verify' => false]);
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index');
     Route::get('/home', 'index');
@@ -39,19 +38,18 @@ Route::get('my-orders', [OrderController::class, 'get_orders']);
 Route::get('order-info', [OrderController::class, 'order_information']);
 Route::any('all-products', [ProductController::class, 'show_all_products'])->name('product-search');
 Route::any('search', [HomeController::class, 'search'])->name('search');
+Route::get('profile', [HomeController::class, 'profile'])->name('my-profile');
+Route::get('account', [HomeController::class, 'account'])->name('my-account');
+Route::post('change-password', [HomeController::class, 'change_password'])->name('change-password');
 Route::get('logout', [HomeController::class, 'logout']);
 Route::group(['middleware' => ['auth']], function () {
     Route::post('place-order', [OrderController::class, 'place_order'])->name('place-order');
 });
 Route::resource('contact-us', ContactController::class);
+// Route::fallback(function () {
+//     //
+// });
 // Route::any('/{any}', function () { return redirect('/home');})->where('any', '^(?!api).*$');
-
-// Route::get('admin', [AdminController::class, 'index']);
-// Route::get('admin/password_reset', [AdminController::class, 'password_reset']);
-// Route::post('auth', [AdminController::class, 'auth'])->name('admin.auth');
-// Route::post('admin/generate_link', [AdminController::class, 'generate_link']);
-// Route::get('admin/forgot_password_change/{id}',[AdminController::class,'forgot_password_change']);
-// Route::post('admin/forgot_password_change_process',[AdminController::class,'forgot_password_change_process']);
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::resource('manage-customers', CustomerController::class);
@@ -61,4 +59,5 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::resource('manage-orders', OrderController::class);
     Route::resource('manage-categories', CategoryController::class);
     Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin_dashboard');
+    Route::post('register-user', [AdminController::class, 'register_user'])->name('user-registration');
 });
