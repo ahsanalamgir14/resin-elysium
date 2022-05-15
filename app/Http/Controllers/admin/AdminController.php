@@ -3,19 +3,20 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use MenaraSolutions\Geographer\Earth;
+use Illuminate\Validation\Rule;
 
 use App\Models\Admin;
 use App\Models\User;
 use App\Models\Customer;
+use App\Models\Category;
 use App\Models\Order;
-use Illuminate\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Mail;
 use DB;
-use Session;
-use Redirect;
 
 class AdminController extends Controller
 {
@@ -28,6 +29,64 @@ class AdminController extends Controller
     {
         $result['data'] = User::where(['role' => 'admin'])->get();
         return view('admin.admins', $result);
+    }
+
+    public function create()
+    {
+        $earth = new Earth();
+        $data['countries'] = $earth->getCountries()->useShortNames()->toArray();
+        return view('admin.create.admin', $data);
+    }
+
+    public function show($id = NULL)
+    {
+        if ($id) {
+            $earth = new Earth();
+            $data['admin'] = User::where(['id' => $id])->first();
+            $data['countries'] = $earth->getCountries()->useShortNames()->toArray();
+        }
+        return view('admin.show.admin', $data);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'email' => ['required', 'max:255', Rule::unique('users')->ignore($id)],
+            'address' => 'required|max:255',
+            'mobile' => 'required|max:255',
+            'city' => 'required|max:255',
+            'state' => 'required|max:255',
+            'country' => 'required|max:255',
+            'zip_code' => 'required|max:255',
+        ]);
+
+        $user = User::where(['id' => $id])->first();
+        $data = $request->all();
+
+        $user->first_name = $data['first_name'];
+        $user->last_name = $data['last_name'];
+        $user->email = $data['email'];
+        $user->password = Hash::make($data['password']);
+        $user->role = $data['role'];
+        $user->address = $data['address'];
+        $user->mobile = $data['mobile'];
+        $user->city = $data['city'];
+        $user->state = $data['state'];
+        $user->country = $data['country'];
+        $user->zip_code = $data['zip_code'];
+        $user->status = 1; //to be added
+        $user->save();
+        notify()->success('Admin Updated Successfully');
+        return back();
     }
     public function auth(Request $request)
     {
@@ -139,7 +198,51 @@ class AdminController extends Controller
         }
         return response()->json(['status' => false, 'msg' => 'Password change failed']);
     }
-    public function create_admin(){
+    public function create_admin()
+    {
         return view('admin.create.admin');
+    }
+
+    public function register_user(Request $request)
+    {
+        // return 1;
+        $validated = $request->validate([
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'email' => 'required|unique:users|max:255',
+            'password' => 'required|max:255',
+            'address' => 'required|max:255',
+            'mobile' => 'required|max:255',
+            'city' => 'required|max:255',
+            'state' => 'required|max:255',
+            'country' => 'required|max:255',
+            'zip_code' => 'required|max:255',
+        ]);
+
+        $data = $request->all();
+        $user = new User();
+
+        $user->first_name = $data['first_name'];
+        $user->last_name = $data['last_name'];
+        $user->email = $data['email'];
+        $user->password = Hash::make($data['password']);
+        $user->role = $data['role'];
+        $user->address = $data['address'];
+        $user->mobile = $data['mobile'];
+        $user->city = $data['city'];
+        $user->state = $data['state'];
+        $user->country = $data['country'];
+        $user->zip_code = $data['zip_code'];
+        $user->status = 1; //implement this functionality
+        $user->save();
+
+        $result['data'] = User::where(['role' => 'customer'])->get();
+        if ($request->role == 'admin') {
+            notify()->success('Admin Created Successfully.');
+            return view('admin.admins', $result);
+        } else {
+            notify()->success('Customer Created Successfully.');
+            return view('admin.customers', $result);
+        }
     }
 }

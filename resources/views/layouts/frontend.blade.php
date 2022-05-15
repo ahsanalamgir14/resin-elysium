@@ -75,7 +75,7 @@
                                         <ul class="ht-menu">
                                             <!-- Begin Setting Area -->
                                             @auth
-                                                <li><a href="/my-account">My Account</a></li>
+                                                <li><a href="/account">My Account</a></li>
                                                 <li><a href="/my-orders">My Orders</a></li>
                                                 <li><a href="/cart-view">Cart</a></li>
                                                 <li><a href="/profile">Profile</a></li>
