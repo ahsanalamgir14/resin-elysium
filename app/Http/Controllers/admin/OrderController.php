@@ -233,6 +233,10 @@ class OrderController extends Controller
     }
     public function order_information(Request $request)
     {
-                                                       
+        $id = $request->id;
+        $data = Order::with('order_status')->with('User')->find($id);
+        $data['order_items'] = OrderItem::with('Product')->where('order_id', $id)->get();
+        $data['categories'] = Category::where('id', '!=', $id)->get();
+        return view('front.order-view', $data);
     }
 }

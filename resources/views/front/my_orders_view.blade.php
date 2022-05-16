@@ -45,7 +45,7 @@
                                         <td class=""><span class="amount">{{$order->total_amount}}</span></td>
                                         <td class=""><span class="amount">{{$order->payment_status}}</span></td>
                                         <td>
-                                            <a href="javascript:void(0)">View Details</a>
+                                            <a href="/order/{{$order->id}}">View Details</a>
                                         </td>
                                     </tr>
                                     @endforeach
