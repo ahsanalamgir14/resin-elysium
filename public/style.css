@@ -6557,7 +6557,19 @@ span.required {
 	align-items: center;
 }
 
-.cod-payment, .paypal-payment{
+.cod-payment,
+.paypal-payment {
 	width: 10px !important;
-    height: 15px !important;
+	height: 15px !important;
+}
+
+.bread-inline-buttons {
+	display: inline;
+	align-items: center;
+	float: right;
+	margin-top: 0px;
+}
+
+.bread-inline-buttons > .btn{
+	padding: 0px !important;
 }

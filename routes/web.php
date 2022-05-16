@@ -41,6 +41,7 @@ Route::any('search', [HomeController::class, 'search'])->name('search');
 Route::get('profile', [HomeController::class, 'profile'])->name('my-profile');
 Route::get('account', [HomeController::class, 'account'])->name('my-account');
 Route::post('change-password', [HomeController::class, 'change_password'])->name('change-password');
+Route::get('order/{id}', [OrderController::class, 'order_information']);
 Route::get('logout', [HomeController::class, 'logout']);
 Route::group(['middleware' => ['auth']], function () {
     Route::post('place-order', [OrderController::class, 'place_order'])->name('place-order');
