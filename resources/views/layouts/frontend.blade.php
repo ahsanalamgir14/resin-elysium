@@ -612,6 +612,8 @@
     <script src="{{ asset('js/main.js') }}"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
     <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+    {{-- chatbot --}}
+    <script src="//code.tidio.co/k6rsxlhnnrieqag12dvbkxymbzdqjbek.js" async></script>
 </body>
 
 </html>
