@@ -66,3 +66,5 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin_dashboard');
     Route::post('register-user', [AdminController::class, 'register_user'])->name('user-registration');
 });
+
+Route::resource('contact-us', ContactController::class);
