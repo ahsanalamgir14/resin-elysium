@@ -6558,7 +6558,7 @@ span.required {
 }
 
 .cod-payment,
-.paypal-payment {
+.card-payment {
 	width: 10px !important;
 	height: 15px !important;
 }
@@ -6572,4 +6572,8 @@ span.required {
 
 .bread-inline-buttons > .btn{
 	padding: 0px !important;
+}
+
+#card-payment-form{
+	display: none;
 }

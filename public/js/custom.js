@@ -46,6 +46,9 @@ $('tr[data-href]').on("click", function () {
 function add_to_cart(el, product_id) {
 
     var qty = $(el).parent().find("input").val();
+    if(!qty){
+        qty = 1;
+    }
     // alert(product_id, qty);
     // $('#add-to-cart-form').preventDefault(e);
     $.ajax({

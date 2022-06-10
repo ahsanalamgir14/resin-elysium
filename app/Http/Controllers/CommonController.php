@@ -7,6 +7,7 @@ use MenaraSolutions\Geographer\Country;
 use MenaraSolutions\Geographer\State;
 
 use Illuminate\Http\Request;
+use App\Models\Category;
 
 class CommonController extends Controller
 {
@@ -26,5 +27,10 @@ class CommonController extends Controller
         $state = State::build($code);
         $cities = $state->getCities()->useShortNames()->toArray();
         return response()->json(['status' => true, 'data' => $cities]);
+    }
+
+    public function about_us(){
+        $data['categories'] = Category::all();
+        return view('front.about-us', $data);
     }
 }

@@ -42,11 +42,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function isAdmin() {
+    public function isAdmin()
+    {
         return $this->role === 'admin';
-     }
- 
-     public function isCustomer() {
+    }
+
+    public function isCustomer()
+    {
         return $this->role === 'customer';
-     }
+    }
+
+    public function beforePlaceOrder()
+    {
+        dd('die');
+    }
 }

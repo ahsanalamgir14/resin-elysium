@@ -496,7 +496,7 @@
                                         <h3 class="footer-block-title">Product</h3>
                                         <ul>
                                             <li><a href="#">Prices drop</a></li>
-                                            <li><a href="#">New products</a></li>
+                                            <li><a href="/all-products">New products</a></li>
                                             <li><a href="#">Best sales</a></li>
                                             <li><a href="{{ url('contact-us') }}">Contact us</a></li>
                                         </ul>
@@ -510,7 +510,7 @@
                                         <ul>
                                             <li><a href="#">Delivery</a></li>
                                             <li><a href="#">Legal Notice</a></li>
-                                            <li><a href="#">About us</a></li>
+                                            <li><a href="{{ url('about-us') }}">About us</a></li>
                                             <li><a href="{{ url('contact-us') }}">Contact us</a></li>
                                         </ul>
                                     </div>

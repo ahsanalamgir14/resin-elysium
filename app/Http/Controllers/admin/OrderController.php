@@ -6,11 +6,13 @@ use App\Models\Order;
 use App\Models\Category;
 use Carbon\Carbon, Mail;
 use App\Models\OrderItem;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use illuminate\support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
+use Stripe;
 
 class OrderController extends Controller
 {
@@ -197,11 +199,31 @@ class OrderController extends Controller
                     //change to bulk 
                     DB::table('order_items')->insert($order_item);
                 }
-                // dd($cart_items);
+                //delete-cart-items
                 // DB::table('carts')->where(['user_id' => $uid, 'user_type' => 'Reg'])->delete();
+                
+                //online-payment
+                if ($request->payment_type == 'card') {
+                    $stripe['amount'] = $request->amount * 100;
+                    $stripe['source'] = $request->source;
+                    $stripe['currency'] = $request->currency;
+                    $stripe['description'] = $request->description;
+                    Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+                    $res = Stripe\Charge::create($stripe);
+                    if($res->status == 'succeeded'){
+                        $payment['payment_id'] = $res->id;
+                        $payment['order_id'] = $order_id;
+                        $payment['type'] = $res->payment_method_details->card->brand;
+                        $payment['currency'] = $res->currency;
+                        $payment['account_no'] = $res->source->fingerprint;
+                        $payment['last_four'] = $res->source->last4;
+                        $payment['desc'] = $res->description;
+                        $payment['status'] = $res->status;
+                        Payment::create($payment);
+                    }
+                }
+
                 $request->session()->put('ORDER_ID', $order_id);
-                // $status = "success";
-                // $msg = "Order placed";
 
                 $data = ['data' => $arr, 'user_id' => $request->user()->id, 'items' => $cart_items, 'items_count' => count($cart_items)];
                 $user['to'] = $request->email;

@@ -283,6 +283,16 @@ Note: main.js, All Default Scripting Languages For This Theme Included In This F
 		}
 		$('#checkout-login').slideToggle(900);
 	});
+	$('#cod-payment').on('click', function () {
+		if ($('#card-payment-form').is(':visible')) {
+			$('#card-payment-form').slideToggle('fast');
+		}
+	});
+	$('#card-payment').on('click', function () {
+		if ($('#card-payment-form').is(':hidden')) {
+			$('#card-payment-form').slideToggle('fast');
+		}
+	});
 	// showlogin toggle
 	$('#showcoupon').on('click', function () {
 		$('#checkout_coupon').slideToggle(900);

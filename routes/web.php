@@ -13,6 +13,7 @@ use App\Http\Controllers\front\FrontController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CommonController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\StripeController;
 
@@ -51,6 +52,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('place-order', [OrderController::class, 'place_order'])->name('place-order');
 });
 Route::resource('contact-us', ContactController::class);
+Route::get('about-us', [CommonController::class, 'about_us']);
 // Route::fallback(function () {
 //     //
 // });

@@ -1,8 +1,11 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use Stripe;
 use Session;
+
 class StripeController extends Controller
 {
     /**
@@ -12,23 +15,17 @@ class StripeController extends Controller
     {
         return view('front.stripe-view');
     }
-  
+
     /**
      * handling payment with POST
      */
     public function handlePost(Request $request)
     {
-        // dd($request->all());
+        $payment = $request->except('_token');
+        $payment['amount'] = $payment['amount'] * 100;
         Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-        Stripe\Charge::create ([
-                "amount" => 100 * 150,
-                "currency" => "inr",
-                "source" => $request->stripeToken,
-                "description" => "Making test payment." 
-        ]);
-  
-        Session::flash('success', 'Payment has been successfully processed.');
-          
+        Stripe\Charge::create($payment);
+        notify()->success('Payment has been successfully processed.');
         return back();
     }
 }

@@ -45,13 +45,17 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         $request->session()->forget('guest_user_id');
+
+        // if ($request->checkout_login) {
+        //     return back();
+        // }
         // to admin dashboard
         if ($user->isAdmin()) {
             return redirect(route('admin_dashboard'));
         }
 
         // to user dashboard
-        else if ($user->isCustomer()) {
+        if ($user->isCustomer()) {
             return redirect('/');
         }
 

@@ -35,7 +35,7 @@
                         <h3 class="card-title">Products Data</h3>
                     </div>
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-hover">
+                        <table id="example1" class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th>Id</th>
