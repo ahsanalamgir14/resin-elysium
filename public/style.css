@@ -2178,6 +2178,10 @@ textarea:focus {
 	content: none;
 }
 
+.hb-menu nav>ul>.no-arrow>a::after {
+	content: none;
+}
+
 .hb-menu nav>ul>li:hover a::after {
 	transform: rotate(180deg);
 }
@@ -2484,11 +2488,14 @@ textarea:focus {
 }
 
 .slider-content>h2 {
-	font-size: 35px;
-	font-weight: 400;
-	text-transform: capitalize;
-	max-width: 310px;
-	margin-bottom: 20px;
+    font-size: 40px;
+    font-weight: 500;
+    text-transform: capitalize;
+    max-width: 410px;
+    margin-bottom: 20px;
+	color: black;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: yellow;
 }
 
 .slider-content>h3 {
@@ -2548,12 +2555,12 @@ textarea:focus {
 .li-product-menu>li>a.active span::before {
 	content: "";
 	position: absolute;
-	bottom: -11px;
+	/* bottom: -11px; */
 	opacity: 0;
 	left: 0;
 	background: #fed700;
 	right: 0;
-	height: 1px;
+	height: 2px;
 	display: block;
 }
 
@@ -3138,6 +3145,7 @@ textarea:focus {
 .li-banner>a>img,
 .single-banner>a>img {
 	width: 100%;
+	height: 220px;
 }
 
 /*----------------------------------------*/
@@ -3186,7 +3194,7 @@ textarea:focus {
 	position: absolute;
 	bottom: -23px;
 	background: #fed700;
-	height: 1px;
+	height: 2px;
 	left: 0;
 	right: 0;
 	opacity: 0;
@@ -3201,7 +3209,7 @@ textarea:focus {
 	opacity: 1;
 	left: 0;
 	right: 0;
-	bottom: -22px;
+	bottom: -15px;
 }
 
 .li-sub-category-list>li:hover>a::after {
@@ -3296,12 +3304,12 @@ textarea:focus {
 
 .li-trending-product-tab>h2>span::before {
 	content: "";
-	position: absolute;
-	background: #fed700;
-	height: 1px;
-	width: 100%;
-	bottom: -10px;
-	left: 0;
+    position: absolute;
+    background: #fed700;
+    height: 2px;
+    width: 100%;
+    bottom: -2px;
+    left: 0;
 }
 
 .li-trending-product-menu {
@@ -6530,8 +6538,8 @@ span.required {
 }
 
 .card-item-padding {
-	padding-right: 15px;
-	padding-left: 15px;
+	padding-right: 20px !important;
+	padding-left: 20px !important;
 }
 
 /*----------------------------------------------------------------------------------------------------*/
@@ -6570,10 +6578,17 @@ span.required {
 	margin-top: 0px;
 }
 
-.bread-inline-buttons > .btn{
+.bread-inline-buttons>.btn {
 	padding: 0px !important;
 }
 
-#card-payment-form{
+#card-payment-form {
 	display: none;
+}
+
+.invalid-feed {
+	width: 100%;
+	margin-top: 0.25rem;
+	font-size: 0.875em;
+	color: #dc3545;
 }

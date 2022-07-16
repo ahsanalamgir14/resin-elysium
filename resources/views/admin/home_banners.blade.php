@@ -26,19 +26,19 @@
 <section class="content">
     <div class="container-fluid">
         <a href="{{url('admin/manage-banners/create')}}">
-            <button class="btn btn-success mb-3">Add New Banner</button>
+            <button class="btn btn-success mb-4">Add New Banner</button>
         </a>
         <div class="row">
             <div class="col-12">
-                <div class="card">
+                {{-- <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Banners Data</h3>
                     </div>
-                    <div class="card-body">
-                        <table id="example1" class="table table-bordered table-hover">
+                    <div class="card-body"> --}}
+                        <table id="example1" class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <th>#ID</th>
                                     <th>Name</th>
                                     <th>Text</th>
                                     <th>Link</th>
@@ -59,8 +59,8 @@
                                 @endforeach
                             </tbody>
                         </table>
-                    </div>
-                </div>
+                    {{-- </div>
+                </div> --}}
             </div>
         </div>
     </div>

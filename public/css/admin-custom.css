@@ -93,6 +93,43 @@
     color: gray !important;
 }
 
-.order-details .col label{
+.order-details .col label {
     font-weight: lighter;
+}
+
+.invalid-feed {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: #dc3545;
+}
+
+thead {
+    background-color: #343A40;
+    color: #EAEBEB;
+}
+
+.button {
+    display: block;
+    width: 40px;
+    height: 38px;
+    background: #007bff;
+    padding: 7px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    line-height: 22px;
+    margin-right: 2px;
+}
+
+.button:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+    color: #ffff !important;
+}
+
+td.actions {
+    display: flex;
+    height: 230px;
 }

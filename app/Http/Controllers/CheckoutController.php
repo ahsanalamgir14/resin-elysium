@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Checkout;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 
 class CheckoutController extends Controller
 {
@@ -90,24 +91,29 @@ class CheckoutController extends Controller
     public function checkout_view(Request $request)
     {
         $total = 0;
-        // dd($request->all());
-        $data['categories'] = Category::all();
         $data['categories'] = Category::all();
         if (Auth::check()) {
             $cart = Cart::with('product')->where(['user_id' => $request->user()->id])->get();
             $data['data'] = User::find($request->user()->id);
         } else {
-            if ($request->session()->has('guest_user_id')) {
-                $guest_user_id = $request->session()->get('guest_user_id');
+            if (Cookie::has('guest_user_id')) {
+                // if ($request->session()->has('guest_user_id')) {
+                $guest_user_id = Cookie::get('guest_user_id');
+                // $guest_user_id = $request->session()->get('guest_user_id');
+                $cart = Cart::with('product')->where(['user_id' => $guest_user_id])->get();
+                $data['data'] = [];
+            } else {
+                return redirect()->route('home');
             }
-            $cart = Cart::with('product')->where(['user_id' => $guest_user_id])->get();
-            $data['data'] = [];
         }
         foreach ($cart as $item) {
             $total += $item->product->price * $item->qty;
         }
+        if ($total == 0) {
+            notify()->error('Cannot Proceed to Checkout page');
+            return redirect()->route('home');
+        }
         $data['cart_items'] = $cart;
-        // dd($data['cart_items']);
         $data['total'] = $total;
         return view('front.checkout-view', $data);
     }

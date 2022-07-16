@@ -20,61 +20,61 @@
                                     <div class="col-md-6 form-group">
                                         <label class="control-label">First Name:</label>
                                         <input class="form-control" id="first_name" name="first_name" type="text" value="">
+                                        @error('first_name')
+                                            <span class="invalid-feed" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
-                                    @error('first_name')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
                                     <div class="col-md-6 form-group">
                                         <label class="control-label">Last Name:</label>
                                         <input class="form-control" id="last_name" name="last_name" type="text" value="">
+                                        @error('last_name')
+                                            <span class="invalid-feed" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
-                                    @error('last_name')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 form-group">
                                         <label class="control-label">Email:</label>
                                         <input class="form-control" id="email" name="email" type="text" value="">
+                                        @error('email')
+                                            <span class="invalid-feed" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
-                                    @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
                                     <div class="col-md-6 form-group">
                                         <label class="control-label">Password:</label>
                                         <input class="form-control" id="password" name="password" type="password" value="">
+                                        @error('password')
+                                            <span class="invalid-feed" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 form-group">
                                         <label class="control-label">Address:</label>
                                         <input class="form-control" id="address" name="address" type="text" value="">
+                                        @error('address')
+                                            <span class="invalid-feed" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
-                                    @error('address')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
                                     <div class="col-md-6 form-group">
                                         <label class="control-label">Phone:</label>
                                         <input class="form-control" id="mobile" name="mobile" type="mobile" value="">
+                                        @error('phone')
+                                            <span class="invalid-feed" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
-                                    @error('phone')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 form-group">
@@ -85,23 +85,23 @@
                                             <option value="{{$country['code']}}">{{$country['name']}}</option>
                                             @endforeach
                                         </select>
+                                        @error('country')
+                                            <span class="invalid-feed" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                       </div>
-                                      @error('country')
-                                          <span class="invalid-feedback" role="alert">
-                                              <strong>{{ $message }}</strong>
-                                          </span>
-                                      @enderror
                                     <div class="col-md-6 form-group">
                                         <label class="control-label">State:</label>
                                         <select name="state" class="states form-control" id="selectState" onchange="stateChange(this.value)">
                                         <option value="">--Please Select Country First</option>
                                         </select>
+                                        @error('state')
+                                            <span class="invalid-feed" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
-                                    @error('state')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 form-group">
@@ -109,21 +109,21 @@
                                         <select name="city" class="cities form-control" id="selectCity">
                                           <option value="">--Please Select State First</option>
                                         </select>
+                                        @error('city')
+                                            <span class="invalid-feed" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
-                                    @error('city')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
                                     <div class="col-md-6 form-group">
                                         <label class="control-label">Zip Code:</label>
                                         <input class="form-control" id="zip_code" name="zip_code" type="text" value="">
+                                        @error('zip_code')
+                                            <span class="invalid-feed" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
-                                    @error('zip_code')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
                                 </div>
                                 <input type="hidden" name="role" value="customer">
                                 <button class="btn btn-primary text-center" type="submit" id="account_submit">Save Changes</button>

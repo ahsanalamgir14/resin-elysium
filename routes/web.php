@@ -32,13 +32,16 @@ use App\Http\Controllers\StripeController;
 Auth::routes(['register' => false, 'reset' => false, 'verify' => false]);
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index');
-    Route::get('/home', 'index');
+    Route::get('/home', 'index')->name('home');
+});
+Route::get('pushInJS', function(){
+    return view('pushInJS');
 });
 Route::get('product-view', [ProductController::class, 'product_view']);
 Route::get('cart-view', [CartController::class, 'cart_view']);
 Route::get('checkout-view', [CheckoutController::class, 'checkout_view']);
 Route::get('my-orders', [OrderController::class, 'get_orders']);
-Route::get('order-info', [OrderController::class, 'order_information']);
+// Route::get('order-info', [OrderController::class, 'order_information']);
 Route::any('all-products', [ProductController::class, 'show_all_products'])->name('product-search');
 Route::any('search', [HomeController::class, 'search'])->name('search');
 Route::get('profile', [HomeController::class, 'profile'])->name('my-profile');
@@ -52,6 +55,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('place-order', [OrderController::class, 'place_order'])->name('place-order');
 });
 Route::resource('contact-us', ContactController::class);
+Route::post('store-query', [ContactController::class, 'store'])->name('save_query');
 Route::get('about-us', [CommonController::class, 'about_us']);
 // Route::fallback(function () {
 //     //

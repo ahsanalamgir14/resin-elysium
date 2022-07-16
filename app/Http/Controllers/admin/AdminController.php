@@ -88,6 +88,7 @@ class AdminController extends Controller
         notify()->success('Admin Updated Successfully');
         return back();
     }
+
     public function auth(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -117,37 +118,40 @@ class AdminController extends Controller
             return redirect('admin')->withErrors($validator)->withInput();
         }
     }
+
     public function dashboard()
     {
-        $customers = User::where(['role' => 'customer'])->get();
+        $customers_count = User::where(['role' => 'customer'])->count();
         $today_orders = Order::where('created_at', '>=', Carbon::today())
-            ->whereNotIn('order_status_id', [4, 5])
+            ->whereNotIn('order_status_id', [4, 5])->get();
+        $weekly_orders = Order::with('User')->where('created_at', '>=', Carbon::now()->startOfWeek())
+            ->where('created_at', '<=', Carbon::now()->endOfWeek())
             ->get();
-        $weekly_orders = Order::with('User')->where('created_at', '>', Carbon::now()->startOfWeek())
-            ->where('created_at', '<', Carbon::now()->endOfWeek())
-            ->get();
-        $total_income = Order::whereNotIn('order_status_id', [4, 5])->sum('total_amount');
-        $data['customers_count'] = number_format($customers->count());
+        $monthly_orders = Order::where('created_at', '>', Carbon::now()->startOfMonth())
+            ->where('created_at', '<', Carbon::now()->endOfMonth())
+            ->whereNotIn('order_status_id', [4, 5])->get();
+        $data['customers_count'] = number_format($customers_count);
         $data['today_orders'] = number_format($today_orders->count());
-        $data['today_total'] = number_format($today_orders->sum('total_amount'), 2);
+        $data['today_revenue'] = number_format($today_orders->sum('total_amount'), 2);
         $data['weekly_orders'] = number_format($weekly_orders->count());
-        $data['recent_orders'] = $weekly_orders;
-        $data['weekly_total'] = number_format($weekly_orders->sum('total_amount'), 2);
-        $data['total_income'] = number_format($total_income, 2);
-
+        $data['weekly_revenue'] = number_format($weekly_orders->sum('total_amount'), 2);
+        $data['monthly_orders'] = number_format($monthly_orders->count());
+        $data['monthly_revenue'] = number_format($monthly_orders->sum('total_amount'), 2);
         return view('admin.dashboard', $data);
-        // return view('admin.dashboard');      
     }
+
     public function update_password()
     {
         $result = Admin::find(1);
         $result->password = Hash::make('ahsan');
         $result->save();
     }
+
     public function password_reset()
     {
         return view('admin.password_reset');
     }
+
     public function generate_link(Request $request)
     {
         $request->validate([
@@ -169,6 +173,7 @@ class AdminController extends Controller
             return response()->json(['status' => true, 'message' => 'Password reset link has been send to your email.']);
         }
     }
+
     public function forgot_password_change(Request $request, $id)
     {
 
@@ -184,6 +189,7 @@ class AdminController extends Controller
             return redirect('/admin');
         }
     }
+
     public function forgot_password_change_process(Request $request)
     {
         if ($request->password1 == $request->password2) {
@@ -198,6 +204,7 @@ class AdminController extends Controller
         }
         return response()->json(['status' => false, 'msg' => 'Password change failed']);
     }
+
     public function create_admin()
     {
         return view('admin.create.admin');

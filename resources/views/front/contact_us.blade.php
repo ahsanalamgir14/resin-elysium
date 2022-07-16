@@ -47,27 +47,46 @@
                         <div class="contact-form-content pt-sm-55 pt-xs-55">
                             <h3 class="contact-page-title">Tell Us Your Message</h3>
                             <div class="contact-form">
-                                <form id="contact-form" action="http://demo.hasthemes.com/limupa-v3/limupa/mail.php"
-                                    method="post">
+                                <form id="contact-form" action="{{ route('save_query') }}" method="POST" enctype='multipart/form-data'>
+                                    @csrf
                                     <div class="form-group">
                                         <label>Your Name <span class="required">*</span></label>
-                                        <input type="text" name="customerName" id="customername" required>
+                                        <input type="text" name="name" id="name">
+                                        @error('name')
+                                            <span class="invalid-feed">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>Your Email <span class="required">*</span></label>
-                                        <input type="email" name="customerEmail" id="customerEmail" required>
+                                        <input type="email" name="email" id="email">
+                                        @error('email')
+                                            <span class="invalid-feed">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>Subject</label>
-                                        <input type="text" name="contactSubject" id="contactSubject">
+                                        <input type="text" name="subject" id="subject">
+                                        @error('subject')
+                                            <span class="invalid-feed">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                     <div class="form-group mb-30">
                                         <label>Your Message</label>
-                                        <textarea name="contactMessage" id="contactMessage"></textarea>
+                                        <textarea name="query" id="query"></textarea>
+                                        @error('query')
+                                            <span class="invalid-feed">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
-                                        <button type="submit" value="submit" id="submit" class="li-btn-3"
-                                            name="submit">send</button>
+                                        <button type="submit" value="submit" id="submit" class="li-btn-3">send</button>
                                     </div>
                                 </form>
                             </div>

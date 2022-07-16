@@ -52,6 +52,7 @@ class CategoryController extends Controller
             $data['image'] = $image_name;
         }
         Category::create($data);
+        notify()->success('Category Created Successfully');
         return redirect('admin/manage-categories');
     }
 
@@ -108,6 +109,7 @@ class CategoryController extends Controller
             $data['image'] = $image_name;
         }
         $category->update($data);
+        notify()->success('Category Updated Successfully');
         return redirect('admin/manage-categories');
     }
 
@@ -122,79 +124,10 @@ class CategoryController extends Controller
         $category = Category::find($id);
         unlink('storage/categories/' . $category->image);
         $category->delete();
+        notify()->success('Category Deleted Successfully');
         return redirect()->back();
     }
 
-    public function manage_category($id = NULL)
-    {
-        if ($id) {
-            $arr = Category::where(['id' => $id])->get();
-            $result['id'] = $arr[0]->id;
-            $result['parent_id'] = $arr[0]->parent_id;
-            $result['category_name'] = $arr[0]->category_name;
-            $result['category_slug'] = $arr[0]->category_slug;
-            $result['is_home'] = $arr[0]->is_home;
-            $result['status'] = $arr[0]->status;
-            $result['parent_name'] = DB::table('categories')->where(['id' => $arr[0]->parent_id])->where(['status' => 1])->pluck('category_name')->first();
-        } else {
-            $result['id'] = '';
-            $result['parent_id'] = '';
-            $result['category_name'] = '';
-            $result['category_slug'] = '';
-            $result['is_home'] = '';
-            $result['status'] = '';
-            $result['parent_name'] = '';
-        }
-        $result['category'] = DB::table('categories')->where('id', '!=', $id)->where(['status' => 1])->get();
-        return view('admin/manage_category', $result);
-    }
-    public function manage_category_process(Request $request)
-    {
-        $id = $request->post('id');
-        if ($id) {
-            $image_required = '';
-            $model = Category::find($id);
-            $message = 'Category Updated Successfully';
-        } else {
-            $image_required = 'required';
-            $model = new Category();
-            $message = 'Category Inserted Successfully';
-        }
-        $request->validate([
-            'category_name' => 'required',
-            'category_slug' => 'required|unique:categories,category_slug,' . $request->post('id'),
-            'cat_image' => $image_required,
-            'is_home' => 'required',
-            'status' => 'required',
-        ]);
-        $model->category_name = $request->post('category_name');
-        $model->category_slug = $request->post('category_slug');
-        if ($request->post('parent_id')) {
-            $model->parent_id = $request->post('parent_id');
-        } else {
-            $model->parent_id = 0;
-        }
-        if ($request->hasfile('cat_image')) {
-            $random = uniqid();
-            $image = $request->file('cat_image');
-            $ext = $image->extension();
-            $image_name = $random . "." . $ext;
-            $image->storeAs($this->front_assets . '/category', $image_name);
-            $model->category_image = $image_name;
-        }
-        $model->is_home = $request->post('is_home');
-        $model->status = $request->post('status');
-        $model->save();
-        notify()->success($message);
-        return redirect('admin/category');
-    }
-    public function delete(Request $request, $id)
-    {
-        $model = Category::find($id);
-        $model->delete();
-        notify()->success('Category Deleted Successfully.');
-        return redirect('admin/category');
-    }
     public function status(Request $request, $status, $id)
     {
         $model = Category::find($id);

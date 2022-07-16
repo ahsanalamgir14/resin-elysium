@@ -23,6 +23,11 @@
                     <!-- Product Details Left -->
                     <div class="product-details-left">
                         <div class="product-details-images slider-navigation-1">
+                            <div class="lg-image">
+                                <a class="popup-img venobox vbox-item" href="{{ asset('storage/products/' . $product->main_image) }}" data-gall="myGallery">
+                                    <img src="{{ asset('storage/products/' . $product->main_image) }}" alt="product image">
+                                </a>
+                            </div>
                             @foreach ($product->images as $image)
                             <div class="lg-image">
                                 <a class="popup-img venobox vbox-item" href="{{ asset('storage/product_images/' . $image) }}" data-gall="myGallery">
@@ -30,38 +35,9 @@
                                 </a>
                             </div>
                             @endforeach
-                            <!-- <div class="lg-image">
-                                <a class="popup-img venobox vbox-item" href="{{ asset('storage/images/product/large-size/1.jpg') }}" data-gall="myGallery">
-                                    <img src="{{ asset('storage/images/product/large-size/1.jpg') }}" alt="product image">
-                                </a>
-                            </div>
-                            <div class="lg-image">
-                                <a class="popup-img venobox vbox-item" href="{{ asset('storage/images/product/large-size/2.jpg') }}" data-gall="myGallery">
-                                    <img src="{{ asset('storage/images/product/large-size/2.jpg') }}" alt="product image">
-                                </a>
-                            </div>
-                            <div class="lg-image">
-                                <a class="popup-img venobox vbox-item" href="{{ asset('storage/images/product/large-size/3.jpg') }}" data-gall="myGallery">
-                                    <img src="{{ asset('storage/images/product/large-size/3.jpg') }}" alt="product image">
-                                </a>
-                            </div>
-                            <div class="lg-image">
-                                <a class="popup-img venobox vbox-item" href="{{ asset('storage/images/product/large-size/4.jpg') }}" data-gall="myGallery">
-                                    <img src="{{ asset('storage/images/product/large-size/4.jpg') }}" alt="product image">
-                                </a>
-                            </div>
-                            <div class="lg-image">
-                                <a class="popup-img venobox vbox-item" href="{{ asset('storage/images/product/large-size/5.jpg') }}" data-gall="myGallery">
-                                    <img src="{{ asset('storage/images/product/large-size/5.jpg') }}" alt="product image">
-                                </a>
-                            </div>
-                            <div class="lg-image">
-                                <a class="popup-img venobox vbox-item" href="{{ asset('storage/images/product/large-size/6.jpg') }}" data-gall="myGallery">
-                                    <img src="{{ asset('storage/images/product/large-size/6.jpg') }}" alt="product image">
-                                </a>
-                            </div> -->
                         </div>
                         <div class="product-details-thumbs slider-thumbs-1">
+                            <div class="sm-image"><img src="{{ asset('storage/products/' . $product->main_image)}}" alt="product image thumb"></div>
                             @foreach ($product->images as $image)
                             <div class="sm-image"><img src="{{ asset('storage/product_images/' . $image)}}" alt="product image thumb"></div>
 
@@ -98,7 +74,8 @@
                             </div>
                             <div class="product-desc">
                                 <p>
-                                    <span>{{ Str::limit($product->desc, 300, '...') }}</span>
+                                    <span>{!! $product->desc !!}</span>
+                                    {{-- <span>{!! Str::limit($product->desc, 300, '...') !!}</span> --}}
                                 </p>
                             </div>
                             <div class="product-variants">
@@ -117,8 +94,8 @@
                                         <label>Quantity</label>
                                         <div class="cart-plus-minus">
                                             <input class="cart-plus-minus-box" value="1" type="text">
-                                            <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
-                                            <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
+                                            <div class="dec qtybutton product-qtybutton"><i class="fa fa-angle-down"></i></div>
+                                            <div class="inc qtybutton product-qtybutton"><i class="fa fa-angle-up"></i></div>
                                         </div>
                                     </div>
                                     <button class="add-to-cart" type="button" onclick="add_to_cart(this, {{$product->id}})">Add to cart</button>
@@ -149,7 +126,7 @@
             <div class="tab-content">
                 <div id="description" class="tab-pane active show" role="tabpanel">
                     <div class="product-description">
-                        <span>{{$product->desc}}</span>
+                        <span>{!! $product->desc !!}</span>
                     </div>
                 </div>
                 <div id="product-details" class="tab-pane" role="tabpanel">
@@ -263,6 +240,7 @@
     </div>
     <!-- Product Area End Here -->
     <!-- Begin Li's Laptop Product Area -->
+    @if(empty($related_products))
     <section class="product-area li-laptop-product pt-30 pb-50">
         <div class="container">
             <div class="row">
@@ -326,6 +304,7 @@
             </div>
         </div>
     </section>
+    @endif
     <!-- Li's Laptop Product Area End Here -->
     <!-- Begin Quick View | Modal Area -->
     <div class="modal fade modal-wrapper" id="exampleModalCenter">

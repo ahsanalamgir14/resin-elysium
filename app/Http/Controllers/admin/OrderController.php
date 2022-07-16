@@ -2,23 +2,25 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Stripe;
 use App\Models\Order;
+use App\Models\Payment;
 use App\Models\Category;
 use Carbon\Carbon, Mail;
 use App\Models\OrderItem;
-use App\Models\Payment;
+use App\Models\OrderStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use illuminate\support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
-use Stripe;
 
 class OrderController extends Controller
 {
     public function index()
     {
         $result['data'] = Order::all();
+        $result['order_status'] = OrderStatus::get();
         return view('admin.orders', $result);
     }
 
@@ -163,7 +165,20 @@ class OrderController extends Controller
     }
     public function place_order(Request $request)
     {
+        // dd($request->all());
+        $request->validate([
+            "first_name" => 'required',
+            "last_name" => 'required',
+            "email" => 'required|email',
+            "mobile" => 'required',
+            "address" => 'required',
+            "city" => 'required',
+            "state" => 'required',
+            "country" => 'required',
+            "zip_code" => 'required',
+        ]);
         if (Auth::check()) {
+
             $user_id = $request->user()->id;
             $totalPrice = 0;
             $cart_items = get_user_cart_items($user_id);
@@ -200,17 +215,22 @@ class OrderController extends Controller
                     DB::table('order_items')->insert($order_item);
                 }
                 //delete-cart-items
-                // DB::table('carts')->where(['user_id' => $uid, 'user_type' => 'Reg'])->delete();
-                
+                DB::table('carts')->where(['user_id' => $user_id, 'user_type' => 'user'])->delete();
+
                 //online-payment
                 if ($request->payment_type == 'card') {
+                    $request->validate([
+                        "amount" => 'required',
+                        "source" => 'required',
+                        "currency" => 'required',
+                    ]);
                     $stripe['amount'] = $request->amount * 100;
                     $stripe['source'] = $request->source;
                     $stripe['currency'] = $request->currency;
                     $stripe['description'] = $request->description;
                     Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
                     $res = Stripe\Charge::create($stripe);
-                    if($res->status == 'succeeded'){
+                    if ($res->status == 'succeeded') {
                         $payment['payment_id'] = $res->id;
                         $payment['order_id'] = $order_id;
                         $payment['type'] = $res->payment_method_details->card->brand;
@@ -223,7 +243,7 @@ class OrderController extends Controller
                     }
                 }
 
-                $request->session()->put('ORDER_ID', $order_id);
+                // $request->session()->put('ORDER_ID', $order_id);
 
                 $data = ['data' => $arr, 'user_id' => $request->user()->id, 'items' => $cart_items, 'items_count' => count($cart_items)];
                 $user['to'] = $request->email;
@@ -232,17 +252,16 @@ class OrderController extends Controller
                     $messages->to($user['to']);
                     $messages->subject('Order Placed');
                 });
-                $status = true;
-                $msg = "Order Placed";
+                notify()->success('Order Placed Successfully.');
+                return redirect('order/' . $order_id);
             } else {
-                $status = false;
-                $msg = "Please try after some time";
+                notify()->success('Please try after some time');
+                return back();
             }
         } else {
-            $status = false;
-            $msg = "Please login to place order";
+            notify()->success('Please login to place order');
+            return back();
         }
-        return response()->json(['status' => $status, 'msg' => $msg]);
     }
     public function get_orders(Request $request)
     {
@@ -260,5 +279,12 @@ class OrderController extends Controller
         $data['order_items'] = OrderItem::with('Product')->where('order_id', $id)->get();
         $data['categories'] = Category::where('id', '!=', $id)->get();
         return view('front.order-view', $data);
+    }
+
+    public function change_order_status(Request $request)
+    {
+        Order::where(['id' => $request->order_id])->update(['order_status_id' => $request->order_status]);
+        notify()->success('Status Updated Successfully');
+        return response()->json(['status' => true]);
     }
 }

@@ -130,9 +130,35 @@
                                     </div>
                                 </div>
                                 <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label for="is_trending" class="control-label">Is Trending?</label>
+                                        <select id="is_trending" value="" name="is_trending" type="text" class="form-control">
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                        @error('is_trending')
+                                        <span class="invalid-feedback d-inline" role="alert">
+                                            <strong>{{$message}}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="is_best_seller" class="control-label">Is Best Seller?</label>
+                                        <select id="is_best_seller" value="" name="is_best_seller" type="text" class="form-control">
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                        @error('is_best_seller')
+                                        <span class="invalid-feedback d-inline" role="alert">
+                                            <strong>{{$message}}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="form-group">
                                         <label for="desc" class="control-label">Description</label>
-                                        <textarea id="desc" value="" name="desc" type="text" class="form-control"></textarea>
+                                        <textarea id="summernote" value="" name="desc" type="text" class="form-control"></textarea>
                                         @error('desc')
                                         <span class="invalid-feedback d-inline" role="alert">
                                             <strong>{{ $message }}</strong>

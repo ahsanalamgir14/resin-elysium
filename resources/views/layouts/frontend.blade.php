@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" id="csrf-token" content="{{ csrf_token() }}">
+    {{-- <meta name="csrf-token" id="csrf-token" content="{{ csrf_token() }}"> --}}
     <title>{{ config('app.name', 'Resin Elysium') }}</title>
 
     <!-- CSRF Token -->
@@ -49,6 +49,9 @@
     <!-- Styles -->
     <!-- <link href="{{ URL::asset('css/custom.css') }}" rel="stylesheet" type="text/css"> -->
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
+    {{-- chaty link --}}
+    {{-- <script id="pixel-chaty" async="true" src="https://cdn.chaty.app/pixel.js?id=kStfjluw"></script> --}}
+    {{-- <script id="pixel-chaty" async="true" src="https://cdn.chaty.app/pixel.js?id=kStfjluw"></script> --}}
 </head>
 
 <body>
@@ -112,20 +115,23 @@
                                 <!-- Begin Header Middle Right Area -->
                                 <div class="col-lg-9 pl-0 ml-sm-15 ml-xs-15">
                                     <!-- Begin Header Middle Searchbox Area -->
-                                    <form id="searchForm" class="hm-searchbox" action="{{ route('search') }}" method="POST" enctype="multipart/form">
+                                    <form id="searchForm" class="hm-searchbox" action="{{ route('search') }}"
+                                        method="POST" enctype="multipart/form">
                                         @csrf
                                         <select name="category" class="nice-select select-search-category">
                                             <option value="">All</option>
                                             @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
                                                 @if (!empty($category->sub_categories))
                                                     @foreach ($category->sub_categories as $sub)
-                                                    <option value="{{$sub->id}}">- - {{$sub->name}}</option>
+                                                        <option value="{{ $sub->id }}">- - {{ $sub->name }}
+                                                        </option>
                                                     @endforeach
                                                 @endif
                                             @endforeach
                                         </select>
-                                        <input type="text" id="search" name="search" placeholder="Enter your search key ...">
+                                        <input type="text" id="search" name="search"
+                                            placeholder="Enter your search key ...">
                                         <button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
                                     </form>
                                     <!-- Header Middle Searchbox Area End Here -->
@@ -133,12 +139,12 @@
                                     <div class="header-middle-right">
                                         <ul class="hm-menu">
                                             <!-- Begin Header Middle Wishlist Area -->
-                                            <!-- <li class="hm-wishlist">
+                                            {{-- <li class="hm-wishlist">
                                                 <a href="wishlist.html">
                                                     <span class="cart-item-count wishlist-item-count">0</span>
                                                     <i class="fa fa-heart-o"></i>
                                                 </a>
-                                            </li> -->
+                                            </li> --}}
                                             <!-- Header Middle Wishlist Area End Here -->
                                             <!-- Begin Header Mini Cart Area -->
                                             <li class="hm-minicart">
@@ -215,61 +221,94 @@
                                         <nav>
                                             <ul>
                                                 @foreach ($categories as $category)
-                                                    <li class="dropdown-holder"><a
-                                                            href="{{ url('categories/' . $category->slug) }}">{{ $category->name }}</a>
+                                                    @if ((empty($category->parents) && count($category->sub_categories) > 0) || (!empty($category->parents) && count($category->sub_categories) > 0) || (empty($category->products) && count($category->sub_categories) == 0))
+                                                        @if (count($category->sub_categories) <= 0)
+                                                            <li class="no-arrow">
+                                                            @else
+                                                            <li>
+                                                        @endif
+                                                        <a
+                                                            href="{{ url(
+                                                                'all-products/?' .
+                                                                    http_build_query([
+                                                                        'filter_categories' => [$category->id],
+                                                                    ]),
+                                                            ) }}">{{ $category->name }}</a>
                                                         @if (count($category->sub_categories) > 0)
                                                             <ul class="hb-dropdown">
                                                                 @foreach ($category->sub_categories as $sub_category)
-                                                                    <li><a
-                                                                            href="{{ url('categories/' . $sub_category->slug) }}">{{ $sub_category->name }}</a>
+                                                                    <li><a style="content: none;"
+                                                                            href="{{ url(
+                                                                                'all-products/?' .
+                                                                                    http_build_query([
+                                                                                        'filter_categories' => [$sub_category->id],
+                                                                                    ]),
+                                                                            ) }}">{{ $sub_category->name }}
+                                                                        </a>
                                                                     </li>
                                                                 @endforeach
                                                             </ul>
                                                         @endif
-                                                    </li>
+                                                        </li>
+                                                    @endif
                                                 @endforeach
-                                                <!-- <li class="megamenu-holder"><a href="shop-left-sidebar.html">Shop</a>
+                                                {{-- <li class="megamenu-holder"><a href="shop-left-sidebar.html">Shop</a>
                                                     <ul class="megamenu hb-megamenu">
                                                         <li><a href="shop-left-sidebar.html">Shop Page Layout</a>
                                                             <ul>
                                                                 <li><a href="shop-3-column.html">Shop 3 Column</a></li>
                                                                 <li><a href="shop-4-column.html">Shop 4 Column</a></li>
-                                                                <li><a href="shop-left-sidebar.html">Shop Left Sidebar</a></li>
-                                                                <li><a href="shop-right-sidebar.html">Shop Right Sidebar</a>
+                                                                <li><a href="shop-left-sidebar.html">Shop Left
+                                                                        Sidebar</a></li>
+                                                                <li><a href="shop-right-sidebar.html">Shop Right
+                                                                        Sidebar</a>
                                                                 </li>
                                                                 <li><a href="shop-list.html">Shop List</a></li>
-                                                                <li><a href="shop-list-left-sidebar.html">Shop List Left
+                                                                <li><a href="shop-list-left-sidebar.html">Shop List
+                                                                        Left
                                                                         Sidebar</a></li>
-                                                                <li><a href="shop-list-right-sidebar.html">Shop List Right
+                                                                <li><a href="shop-list-right-sidebar.html">Shop List
+                                                                        Right
                                                                         Sidebar</a></li>
                                                             </ul>
                                                         </li>
-                                                        <li><a href="single-product-gallery-left.html">Single Product Style</a>
+                                                        <li><a href="single-product-gallery-left.html">Single Product
+                                                                Style</a>
                                                             <ul>
-                                                                <li><a href="single-product-carousel.html">Single Product
+                                                                <li><a href="single-product-carousel.html">Single
+                                                                        Product
                                                                         Carousel</a></li>
-                                                                <li><a href="single-product-gallery-left.html">Single Product
+                                                                <li><a href="single-product-gallery-left.html">Single
+                                                                        Product
                                                                         Gallery Left</a></li>
-                                                                <li><a href="single-product-gallery-right.html">Single Product
+                                                                <li><a href="single-product-gallery-right.html">Single
+                                                                        Product
                                                                         Gallery Right</a></li>
-                                                                <li><a href="single-product-tab-style-top.html">Single Product
+                                                                <li><a href="single-product-tab-style-top.html">Single
+                                                                        Product
                                                                         Tab Style Top</a></li>
-                                                                <li><a href="single-product-tab-style-left.html">Single Product
+                                                                <li><a href="single-product-tab-style-left.html">Single
+                                                                        Product
                                                                         Tab Style Left</a></li>
-                                                                <li><a href="single-product-tab-style-right.html">Single Product
+                                                                <li><a href="single-product-tab-style-right.html">Single
+                                                                        Product
                                                                         Tab Style Right</a></li>
                                                             </ul>
                                                         </li>
                                                         <li><a href="single-product.html">Single Products</a>
                                                             <ul>
-                                                                <li><a href="single-product.html">Single Product</a></li>
-                                                                <li><a href="single-product-sale.html">Single Product Sale</a>
+                                                                <li><a href="single-product.html">Single Product</a>
                                                                 </li>
-                                                                <li><a href="single-product-group.html">Single Product Group</a>
+                                                                <li><a href="single-product-sale.html">Single Product
+                                                                        Sale</a>
+                                                                </li>
+                                                                <li><a href="single-product-group.html">Single Product
+                                                                        Group</a>
                                                                 </li>
                                                                 <li><a href="single-product-normal.html">Single Product
                                                                         Normal</a></li>
-                                                                <li><a href="single-product-affiliate.html">Single Product
+                                                                <li><a href="single-product-affiliate.html">Single
+                                                                        Product
                                                                         Affiliate</a></li>
                                                             </ul>
                                                         </li>
@@ -277,39 +316,51 @@
                                                 </li>
                                                 <li class="dropdown-holder"><a href="blog-left-sidebar.html">Blog</a>
                                                     <ul class="hb-dropdown">
-                                                        <li class="sub-dropdown-holder"><a href="blog-left-sidebar.html">Blog
+                                                        <li class="sub-dropdown-holder"><a
+                                                                href="blog-left-sidebar.html">Blog
                                                                 Grid View</a>
                                                             <ul class="hb-dropdown hb-sub-dropdown">
                                                                 <li><a href="blog-2-column.html">Blog 2 Column</a></li>
                                                                 <li><a href="blog-3-column.html">Blog 3 Column</a></li>
-                                                                <li><a href="blog-left-sidebar.html">Grid Left Sidebar</a></li>
-                                                                <li><a href="blog-right-sidebar.html">Grid Right Sidebar</a>
+                                                                <li><a href="blog-left-sidebar.html">Grid Left
+                                                                        Sidebar</a></li>
+                                                                <li><a href="blog-right-sidebar.html">Grid Right
+                                                                        Sidebar</a>
                                                                 </li>
                                                             </ul>
                                                         </li>
-                                                        <li class="sub-dropdown-holder"><a href="blog-list-left-sidebar.html">Blog List View</a>
+                                                        <li class="sub-dropdown-holder"><a
+                                                                href="blog-list-left-sidebar.html">Blog List View</a>
                                                             <ul class="hb-dropdown hb-sub-dropdown">
                                                                 <li><a href="blog-list.html">Blog List</a></li>
-                                                                <li><a href="blog-list-left-sidebar.html">List Left Sidebar</a>
+                                                                <li><a href="blog-list-left-sidebar.html">List Left
+                                                                        Sidebar</a>
                                                                 </li>
                                                                 <li><a href="blog-list-right-sidebar.html">List Right
                                                                         Sidebar</a></li>
                                                             </ul>
                                                         </li>
-                                                        <li class="sub-dropdown-holder"><a href="blog-details-left-sidebar.html">Blog Details</a>
+                                                        <li class="sub-dropdown-holder"><a
+                                                                href="blog-details-left-sidebar.html">Blog Details</a>
                                                             <ul class="hb-dropdown hb-sub-dropdown">
-                                                                <li><a href="blog-details-left-sidebar.html">Left Sidebar</a>
+                                                                <li><a href="blog-details-left-sidebar.html">Left
+                                                                        Sidebar</a>
                                                                 </li>
-                                                                <li><a href="blog-details-right-sidebar.html">Right Sidebar</a>
+                                                                <li><a href="blog-details-right-sidebar.html">Right
+                                                                        Sidebar</a>
                                                                 </li>
                                                             </ul>
                                                         </li>
-                                                        <li class="sub-dropdown-holder"><a href="blog-gallery-format.html">Blog
+                                                        <li class="sub-dropdown-holder"><a
+                                                                href="blog-gallery-format.html">Blog
                                                                 Format</a>
                                                             <ul class="hb-dropdown hb-sub-dropdown">
-                                                                <li><a href="blog-audio-format.html">Blog Audio Format</a></li>
-                                                                <li><a href="blog-video-format.html">Blog Video Format</a></li>
-                                                                <li><a href="blog-gallery-format.html">Blog Gallery Format</a>
+                                                                <li><a href="blog-audio-format.html">Blog Audio
+                                                                        Format</a></li>
+                                                                <li><a href="blog-video-format.html">Blog Video
+                                                                        Format</a></li>
+                                                                <li><a href="blog-gallery-format.html">Blog Gallery
+                                                                        Format</a>
                                                                 </li>
                                                             </ul>
                                                         </li>
@@ -321,25 +372,34 @@
                                                             <ul>
                                                                 <li><a href="blog-2-column.html">Blog 2 Column</a></li>
                                                                 <li><a href="blog-3-column.html">Blog 3 Column</a></li>
-                                                                <li><a href="blog-left-sidebar.html">Grid Left Sidebar</a></li>
-                                                                <li><a href="blog-right-sidebar.html">Grid Right Sidebar</a>
+                                                                <li><a href="blog-left-sidebar.html">Grid Left
+                                                                        Sidebar</a></li>
+                                                                <li><a href="blog-right-sidebar.html">Grid Right
+                                                                        Sidebar</a>
                                                                 </li>
                                                                 <li><a href="blog-list.html">Blog List</a></li>
-                                                                <li><a href="blog-list-left-sidebar.html">List Left Sidebar</a>
+                                                                <li><a href="blog-list-left-sidebar.html">List Left
+                                                                        Sidebar</a>
                                                                 </li>
                                                                 <li><a href="blog-list-right-sidebar.html">List Right
                                                                         Sidebar</a></li>
                                                             </ul>
                                                         </li>
-                                                        <li><a href="blog-details-left-sidebar.html">Blog Details Pages</a>
+                                                        <li><a href="blog-details-left-sidebar.html">Blog Details
+                                                                Pages</a>
                                                             <ul>
-                                                                <li><a href="blog-details-left-sidebar.html">Left Sidebar</a>
+                                                                <li><a href="blog-details-left-sidebar.html">Left
+                                                                        Sidebar</a>
                                                                 </li>
-                                                                <li><a href="blog-details-right-sidebar.html">Right Sidebar</a>
+                                                                <li><a href="blog-details-right-sidebar.html">Right
+                                                                        Sidebar</a>
                                                                 </li>
-                                                                <li><a href="blog-audio-format.html">Blog Audio Format</a></li>
-                                                                <li><a href="blog-video-format.html">Blog Video Format</a></li>
-                                                                <li><a href="blog-gallery-format.html">Blog Gallery Format</a>
+                                                                <li><a href="blog-audio-format.html">Blog Audio
+                                                                        Format</a></li>
+                                                                <li><a href="blog-video-format.html">Blog Video
+                                                                        Format</a></li>
+                                                                <li><a href="blog-gallery-format.html">Blog Gallery
+                                                                        Format</a>
                                                                 </li>
                                                             </ul>
                                                         </li>
@@ -361,11 +421,11 @@
                                                             </ul>
                                                         </li>
                                                     </ul>
-                                                </li>
-                                                <li><a href="about-us.html">About Us</a></li>
-                                                <li><a href="contact.html">Contact</a></li>
+                                                </li> --}}
+                                                {{-- <li><a href="about-us.html">About Us</a></li> --}}
+                                                {{-- <li><a href="contact.html">Contact</a></li>
                                                 <li><a href="shop-left-sidebar.html">Smartwatch</a></li>
-                                                <li><a href="shop-left-sidebar.html">Accessories</a></li> -->
+                                                <li><a href="shop-left-sidebar.html">Accessories</a></li> --}}
                                             </ul>
                                         </nav>
                                     </div>
@@ -469,9 +529,11 @@
                                 <!-- Begin Footer Logo Area -->
                                 <div class="col-lg-4 col-md-6">
                                     <div class="footer-logo">
-                                        <img src="{{ asset('storage/images/menu/logo/10.png') }}" alt="Footer Logo">
+                                        <img src="{{ asset('storage/images/menu/logo/10.png') }}"
+                                            alt="Footer Logo">
                                         <p class="info">
-                                            We provide facility to buy resin products and raw materials. Place order and recieve at products at your door step. 
+                                            We provide facility to buy resin products and raw materials. Place order and
+                                            recieve at products at your door step.
                                         </p>
                                     </div>
                                     <ul class="des">
@@ -495,9 +557,12 @@
                                     <div class="footer-block">
                                         <h3 class="footer-block-title">Product</h3>
                                         <ul>
-                                            <li><a href="#">Prices drop</a></li>
+                                            {{-- <li><a href="#">Prices drop</a></li> --}}
                                             <li><a href="/all-products">New products</a></li>
-                                            <li><a href="#">Best sales</a></li>
+                                            <li><a href="/all-products?product_type=is_best_seller">Best
+                                                    sales</a></li>
+                                            <li><a href="/all-products?product_type=is_trending">Trending
+                                                    sales</a></li>
                                             <li><a href="{{ url('contact-us') }}">Contact us</a></li>
                                         </ul>
                                     </div>
@@ -508,8 +573,8 @@
                                     <div class="footer-block">
                                         <h3 class="footer-block-title">Our company</h3>
                                         <ul>
-                                            <li><a href="#">Delivery</a></li>
-                                            <li><a href="#">Legal Notice</a></li>
+                                            {{-- <li><a href="#">Delivery</a></li>
+                                            <li><a href="#">Legal Notice</a></li> --}}
                                             <li><a href="{{ url('about-us') }}">About us</a></li>
                                             <li><a href="{{ url('contact-us') }}">Contact us</a></li>
                                         </ul>
@@ -546,8 +611,8 @@
                                                 </a>
                                             </li>
                                             <li class="youtube">
-                                                <a href="https://www.youtube.com/" data-toggle="tooltip" target="_blank"
-                                                    title="Youtube">
+                                                <a href="https://www.youtube.com/" data-toggle="tooltip"
+                                                    target="_blank" title="Youtube">
                                                     <i class="fa fa-youtube"></i>
                                                 </a>
                                             </li>
@@ -592,7 +657,7 @@
     <script src="{{ asset('js/vendor/jquery-1.12.4.min.js') }}"></script>
     <script src="{{ asset('js/vendor/popper.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/ajax-mail.js') }}"></script>
+    {{-- <script src="{{ asset('js/ajax-mail.js') }}"></script> --}}
     <script src="{{ asset('js/jquery.meanmenu.min.js') }}"></script>
     <script src="{{ asset('js/wow.min.js') }}"></script>
     <script src="{{ asset('js/slick.min.js') }}"></script>
@@ -614,6 +679,7 @@
     <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
     {{-- chatbot --}}
     <script src="//code.tidio.co/k6rsxlhnnrieqag12dvbkxymbzdqjbek.js" async></script>
+    {{-- <script id="pixel-chaty" async="true" src="https://cdn.chaty.app/pixel.js?id=kStfjluw"></script> --}}
 </body>
 
 </html>

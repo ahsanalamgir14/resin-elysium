@@ -36,16 +36,16 @@
                                 <tbody>
                                     @foreach($cart_items as $item)
                                     <tr>
-                                        <td class="li-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
+                                        <td class="li-product-remove"><a href="javascript:void(0)" onclick="delete_cart_item(this, {{$item->product_id}}, {{$item->user_id}})"><i class="fa fa-times"></i></a></td>
                                         <td class="li-product-thumbnail cart-image"><a href="#"><img src="{{'storage/products/'.$item->product->main_image}}" alt="{{$item->product->main_image}}"></a></td>
                                         <td class="li-product-name"><a href="#">{{$item->product->name}}</a></td>
                                         <td class="li-product-price"><span class="amount">Rs. {{$item->product->price}}</span></td>
                                         <td class="quantity">
                                             <!-- <label>Quantity</label> -->
                                             <div class="cart-plus-minus">
-                                                <input class="cart-plus-minus-box" value="{{$item->qty}}" type="text">
-                                                <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
-                                                <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
+                                                <input class="cart-plus-minus-box" value="{{$item->qty}}" type="text" onchange="update_cart(this, {{$item->product_id}}, {{$item->user_id}})">
+                                                <div class="inc qtybutton" onclick="update_cart(this, {{$item->product_id}}, {{$item->user_id}})"><i class="fa fa-angle-up"></i></div>
+                                                <div class="dec qtybutton" onclick="update_cart(this, {{$item->product_id}}, {{$item->user_id}})"><i class="fa fa-angle-down"></i></div>
                                             </div>
                                         </td>
                                         <td class="product-subtotal"><span class="amount">Rs. {{number_format($item->qty * $item->product->price)}}/-</span></td>
