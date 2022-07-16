@@ -65,9 +65,14 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="is_home" class="control-label mb-1">Is Home</label>
-                                            <select id="is_home" value="{{$is_home}}" name="is_home" type="text" class="form-control">
-                                                <option value="1">Yes</option>
-                                                <option value="0">No</option>
+                                            <select id="is_home" name="is_home" type="text" class="form-control">
+                                                @if($is_home == '1')
+                                                    <option selected value="1">Yes</option>
+                                                    <option value="0">No</option>
+                                                @else
+                                                    <option selected value="0">No</option>
+                                                    <option value="1">Yes</option>
+                                                @endif
                                             </select>
                                             @error('is_home')
                                             <span class="invalid-feedback d-inline" role="alert">

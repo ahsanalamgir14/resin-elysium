@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Contact;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Mail;
 
 class ContactController extends Controller
 {
@@ -16,7 +18,7 @@ class ContactController extends Controller
     public function index()
     {
         $data['categories'] = Category::all();
-        return view('front.contact_us', $data); 
+        return view('front.contact_us', $data);
     }
 
     /**
@@ -37,7 +39,24 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'subject' => 'required',
+            'query' => 'required',
+        ]);
+
+        $data = $request->all();
+        $user = 'resinelysium@gmail.com';
+        Mail::send('front/query-mail', $data, function ($messages) use ($user, $request) {
+            $messages->to($user);
+            $messages->from($request->email);
+            $messages->subject($request->subject);
+        });
+
+        notify()->success('Your query has been send to Administrator');
+        return back();
     }
 
     /**

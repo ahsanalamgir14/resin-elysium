@@ -26,19 +26,19 @@
 <section class="content">
     <div class="container-fluid">
         <a href="{{url('admin/manage-customers/create')}}">
-            <button class="btn btn-success mb-3">Add New Customer</button>
+            <button class="btn btn-success mb-4">Add New Customer</button>
         </a>
         <div class="row">
             <div class="col-12">
-                <div class="card">
+                {{-- <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Customers Data</h3>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body"> --}}
                         <table id="example1" class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <th>#ID</th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Email</th>
@@ -55,8 +55,8 @@
                                 @endforeach
                             </tbody>
                         </table>
-                    </div>
-                </div>
+                    {{-- </div>
+                </div> --}}
             </div>
         </div>
     </div>

@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-use \Illuminate\Http\Request;
 use Log;
+use App\Models\Cart;
+use \Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
@@ -44,14 +46,45 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        $request->session()->forget('guest_user_id');
+        // $request->session()->forget('guest_user_id');
+
+        if ($request->checkout_login) {
+            if (Cookie::has('guest_user_id')) {
+                $guest_user_id = Cookie::get('guest_user_id');
+                $user_items = Cart::where(['user_id' => Auth::id()])->get();
+                // return $user_items;
+                $guest_user_items = Cart::where(['user_id' => $guest_user_id])->get();
+                if (count($user_items) > 0) {
+                    foreach ($user_items as $u_item) {
+                        foreach ($guest_user_items as $g_item) {
+                            if ($u_item->product_id == $g_item->product_id) {
+                                $u_item->qty = $g_item->qty;
+                                $u_item->save();
+                                $g_item->delete();
+                            } else {
+                                $g_item->user_id = $u_item->user_id;
+                                $g_item->user_type = 'user';
+                                $g_item->save();
+                            }
+                        }
+                    }
+                } else {
+                    foreach ($guest_user_items as $g_item) {
+                        // dd('die');
+                        $g_item->user_id = Auth::id();
+                        $g_item->save();
+                    }
+                }
+            }
+            return back();
+        }
         // to admin dashboard
         if ($user->isAdmin()) {
             return redirect(route('admin_dashboard'));
         }
 
         // to user dashboard
-        else if ($user->isCustomer()) {
+        if ($user->isCustomer()) {
             return redirect('/');
         }
 

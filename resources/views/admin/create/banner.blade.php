@@ -20,7 +20,7 @@
                                 <label for="name" class="control-label">Banner Name</label>
                                 <input id="name" value="" name="name" type="text" class="form-control">
                                 @error('name')
-                                <span class="invalid-feedback d-inline" role="alert">
+                                <span class="invalid-feed" role="alert">
                                     <strong>{{$message}}</strong>
                                 </span>
                                 @enderror
@@ -29,7 +29,7 @@
                                 <label for="btn_text" class="control-label">Button Text</label>
                                 <input id="btn_text" value="" name="btn_text" type="text" class="form-control" value="">
                                 @error('btn_text')
-                                <span class="invalid-feedback d-inline" role="alert">
+                                <span class="invalid-feed" role="alert">
                                     <strong>{{$message}}</strong>
                                 </span>
                                 @enderror
@@ -38,7 +38,7 @@
                                 <label for="btn_link" class="control-label">Button Link</label>
                                 <input id="btn_link" value="" name="btn_link" type="text" class="form-control" value="">
                                 @error('btn_link')
-                                <span class="invalid-feedback d-inline" role="alert">
+                                <span class="invalid-feed" role="alert">
                                     <strong>{{$message}}</strong>
                                 </span>
                                 @enderror
@@ -46,11 +46,11 @@
                             <div class="form-group">
                                 <label for="status" class="control-label">Status</label>
                                 <select id="status" value="" name="status" type="text" class="form-control">
-                                    <option value="0">Activate</option>
-                                    <option value="1">Deactivate</option>
+                                    <option value="1">Activate</option>
+                                    <option value="0">Deactivate</option>
                                 </select>
                                 @error('status')
-                                <span class="invalid-feedback d-inline" role="alert">
+                                <span class="invalid-feed" role="alert">
                                     <strong>{{$message}}</strong>
                                 </span>
                                 @enderror
@@ -59,7 +59,7 @@
                                 <label for="image" class="control-label">Banner Image</label>
                                 <input id="image" name="image" type="file" class="form-control" value="">
                                 @error('image')
-                                <span class="invalid-feedback d-inline" role="alert">
+                                <span class="invalid-feed" role="alert">
                                     <strong>{{$message}}</strong>
                                 </span>
                                 @enderror

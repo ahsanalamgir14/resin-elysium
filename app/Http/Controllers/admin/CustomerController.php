@@ -61,12 +61,12 @@ class CustomerController extends Controller
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'email' => ['required', 'max:255', Rule::unique('users')->ignore($id)],
-            'address' => 'required|max:255',
-            'mobile' => 'required|max:255',
-            'city' => 'required|max:255',
-            'state' => 'required|max:255',
-            'country' => 'required|max:255',
-            'zip_code' => 'required|max:255',
+            // 'address' => 'required|max:255',
+            // 'mobile' => 'required|max:255',
+            // 'city' => 'required|max:255',
+            // 'state' => 'required|max:255',
+            // 'country' => 'required|max:255',
+            // 'zip_code' => 'required|max:255',
         ]);
 
         $user = User::where(['id' => $id])->first();

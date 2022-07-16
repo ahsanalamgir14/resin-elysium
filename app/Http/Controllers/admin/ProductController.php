@@ -191,222 +191,45 @@ class ProductController extends Controller
 
     public function show_all_products(Request $request)
     {
-        $result['categories'] = Category::with('sub_categories')->get();
-        // dd($result['categories']);
-        $query = Product::whereNotNull('id');
+        // dd($request->all());
+        $result['categories'] = Category::with(['products'])->get();
+        $query = Product::select('products.*', DB::raw('GROUP_CONCAT(c.id) as child_categories'))->distinct();
         if ($request->category) {
-            $query->where('category_id', $request->category);
+            $query->where('products.category_id', $request->category);
+        }
+        if ($request->filter_categories) {
+            $query->WhereIn('products.category_id', $request->filter_categories)
+                ->leftJoin('categories as c', function ($sub_join) use ($request) {
+                    $sub_join->whereIn('c.parent_id', $request->filter_categories);
+                });
+            $children_categories = $query->pluck('child_categories')->toArray();
+            $children_categories = array_map('intval', explode(',', $children_categories[0]));
+            $query->orWhereIn('products.category_id', $children_categories);
+        }
+        if ($request->product_type) {
+            $query->Where($request->product_type, 1);
         }
         if ($request->sort) {
             $sort_by = $request->sort;
             if ($sort_by == 'name_asc') {
-                $query->orderBy('name', 'asc');
+                $query->orderBy('products.name', 'asc');
             } else if ($sort_by == 'name_desc') {
-                $query->orderBy('name', 'desc');
+                $query->orderBy('products.name', 'desc');
             } else if ($sort_by == 'price_asc') {
-                $query->orderBy('price', 'asc');
+                $query->orderBy('products.price', 'asc');
             } else if ($sort_by == 'price_desc') {
-                $query->orderBy('price', 'desc');
+                $query->orderBy('products.price', 'desc');
             }
         }
-        $query = $query->paginate(20);
+        $query = $query->groupBy('products.id')->paginate(20);
         $result['products'] = $query;
+        // dd($result['products']);
+        // dd($request->sort);
+        $result['filter_categories'] = $request->filter_categories;
+        $result['sort_by'] = $request->sort;
         return view('front.products-view', $result);
     }
 
-
-
-
-
-    public function manage_product($id = NULL)
-    {
-        if ($id) {
-            $arr = Product::where(['id' => $id])->get();
-            $result['id'] = $arr[0]->id;
-            $result['category_id'] = $arr[0]->category_id;
-            $result['product_name'] = $arr[0]->product_name;
-            $result['product_slug'] = $arr[0]->product_slug;
-            $result['product_type'] = $arr[0]->product_type;
-            $result['product_price'] = $arr[0]->product_price;
-            $result['product_image'] = $arr[0]->product_image;
-            $result['product_desc'] = $arr[0]->product_desc;
-            $result['product_3d'] = $arr[0]->product_3d;
-            $product_attr = DB::table('products_attr')->where(['product_id' => $id])->get();
-            // var_dump($product_attr);die;
-            // if(empty($product_attr[0])){
-            // $arr[]='1';
-            // $result['product_attr'] = $arr;
-            // var_dump($result);die;
-            // }else{
-            $result['product_attr'] = $product_attr;
-            // var_dump($result);die;
-            // }
-        } else {
-            $result['id'] = 0;
-            $result['category_id'] = '';
-            $result['product_name'] = '';
-            $result['product_slug'] = '';
-            $result['product_type'] = '';
-            $result['product_price'] = '';
-            $result['product_image'] = '';
-            $result['product_desc'] = '';
-            $result['product_3d'] = '';
-            // $object = new stdClass();
-            $product_attr = collect([
-                (object) array(
-                    'id' => 0,
-                    'product_id' => 0,
-                    'sku' => null,
-                    'qty' => null,
-                    'price' => null,
-                    'image' => null,
-                )
-            ]);
-            $result['product_attr'] = $product_attr;
-            // var_dump($result);die;
-
-        }
-        $result['category'] = DB::table('categories')->where(['status' => 1])->get();
-        return view('admin/manage_product', $result);
-    }
-    public function manage_product_process(Request $request)
-    {
-        // return $request->file('image');
-        // die;
-        $id = $request->post('id');
-        if ($id) {
-            $product_image = "mimes:jpeg,png,jpg";
-            $product_image_required = '';
-            $image = '';
-        } else {
-            $product_image = 'required|mimes:jpeg,png,jpg';
-            $product_image_required = 'required';
-            $image = 'required|mimes:jpg,png,jpeg';
-        }
-        $request->validate(
-            [
-                'category_id' => 'required||not_in:0',
-                'product_name' => 'required',
-                'product_image' => $product_image_required,
-                'product_slug' => 'required|unique:products,product_slug,' . $request->post('id'),
-                'product_type' => 'required',
-                'product_price' => 'required',
-                'product_desc' => 'required',
-                'sku.0' => 'required',
-                'price.0' => 'required',
-                'qty.0' => 'required',
-                'image.0' => $image,
-            ],
-            [
-                'category_id.required' => 'The category name field is required.',
-                'sku.0.required' => 'required*',
-                'price.0.required' => 'required*',
-                'qty.0.required' => 'required*',
-                'image.0.required' => 'required*',
-            ]
-        );
-        $paid_arr = $request->post('paid');
-        $sku_arr = $request->post('sku');
-        $qty_arr = $request->post('qty');
-        $price_arr = $request->post('price');
-        $image_arr = $request->file('image');
-
-        foreach ($sku_arr as $key => $sku_val) {
-            if ($request->hasfile('image')) {
-                $random = uniqid();
-                $image_arr = $request->file('image');
-                $ext_arr[$key] = $image_arr[$key]->extension();
-                $image_name[$key] = $random . "." . $ext_arr[$key];
-                $image_arr[$key]->storeAs($this->front_assets . '/product_attr_images', $image_name[$key]);
-                $image[$key] = $image_name[$key];
-                // var_dump($image);die;
-            } else {
-                $image = array([]);
-            }
-            $check = DB::table('products_attr')->where('sku', '=', $sku_arr[$key])->where('id',  '!=', $paid_arr[$key])->get();
-            if (isset($check[0])) {
-                notify()->success('sku_error', $sku_arr[$key] . 'sku already used.');
-                return redirect(request()->headers->get('referer'));
-            }
-        }
-
-        if ($id) {
-            $model = Product::find($id);
-            $message = 'Product Updated Successfully';
-        } else {
-            $model = new Product();
-            $message = 'Product Inserted Successfully';
-        }
-        if ($request->hasfile('product_image')) {
-            $image = $request->file('product_image');
-            $ext = $image->extension();
-            $image_name = time() . "." . $ext;
-            $image->storeAs($this->front_assets . '/products', $image_name);
-            $model->product_image = $image_name;
-        }
-        $model->product_name = $request->post('product_name');
-        $model->product_slug = $request->post('product_slug');
-        $model->category_id = $request->post('category_id');
-        $model->product_type = $request->post('product_type');
-        $model->product_price = $request->post('product_price');
-        $model->product_desc = $request->post('product_desc');
-        $model->product_3d = $request->post('product_3d');
-        $model->status = 1;
-        $model->save();
-        $pid = $model->id;
-
-        /*Product Attr*/
-        foreach ($sku_arr as $key => $sku_val) {
-            // var_dump($image);die;
-            $product_attr_arr['product_id'] = $pid;
-            $product_attr_arr['sku'] = $sku_arr[$key];
-            $product_attr_arr['qty'] = $qty_arr[$key];
-            $product_attr_arr['price'] = $price_arr[$key];
-            if ($request->hasfile('image')) {
-                $product_attr_arr['image'] = $image;
-            }
-
-            if ($paid_arr[$key] != 0 || '') {
-                DB::table('products_attr')->where(['id' => $paid_arr[$key]])->update($product_attr_arr);
-            } else {
-                DB::table('products_attr')->insert($product_attr_arr);
-            }
-        }
-
-        /*prosuct Attr ends */
-        //images
-        $images_data;
-        if ($files = $request->file('images')) {
-            foreach ($files as $file) {
-                // var_dump($file);die;
-                $image_name = uniqid();
-                $ext = strtolower($file->getClientOriginalExtension());
-                $image_full_name = $image_name . '.' . $ext;
-                $file->storeAs($this->front_assets . '/product_images', $image_full_name);
-                $images_data[] = $image_full_name;
-            }
-            $uploaded_before = DB::table('products')->select('images')->where('id', '=', $pid)->first();
-            if ($uploaded_before) {
-                // dd($images_data);
-                DB::table('products')->where(['id' => $pid])->update([
-                    'images' => serialize($images_data)
-                ]);
-            } else {
-                $product = Product::find($pid);
-                $product->images = serialize($images_data);
-                $product->save();
-            }
-        }
-        notify()->success($message);
-        return redirect('admin/product');
-    }
-    public function delete(Request $request, $id)
-    {
-        $model = Product::find($id);
-        $model->delete();
-        notify()->success('Product Deleted Successfully.');
-        return redirect('admin/product');
-    }
     public function status(Request $request, $status, $id)
     {
         $model = Product::find($id);
@@ -414,5 +237,13 @@ class ProductController extends Controller
         $model->save();
         notify()->success('Status Updated Successfully.');
         return redirect('admin/product');
+    }
+
+    public function apply_filters(Request $request)
+    {
+        $filters = $request->all();
+
+        return $filters;
+        $result['categories'] = Category::with('sub_categories')->get();
     }
 }

@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-use MenaraSolutions\Geographer\Earth;
-use App\Models\HomeBanner;
-use App\Models\Category;
-use App\Models\Product;
-use App\Models\User;
 use Carbon\Carbon;
-use DB;
-use Hash;
+use App\Models\User;
+use App\Models\Product;
+use App\Models\Category;
+use App\Models\HomeBanner;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use MenaraSolutions\Geographer\Earth;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
@@ -34,14 +36,37 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         if (!Auth::check()) {
-            if (!$request->session()->has('guest_user_id')) {
-                $request->session()->put(['guest_user_id' => mt_rand(10000000, 99999999)]);
+            if (!Cookie::has('guest_user_id')) {
+                Cookie::queue(Cookie::forever('guest_user_id', mt_rand(10000000, 99999999)));
             }
+            // if (!$request->session()->has('guest_user_id')) {
+            //     $request->session()->put(['guest_user_id' => mt_rand(10000000, 99999999)]);
+            // }
         }
-        $result['banners'] = HomeBanner::where(['status' => 1])->get();
-        $result['categories'] = Category::with('sub_categories')->where(['status' => 1])->get();
+        $result['banners'] = HomeBanner::where(['status' => 1])->orderBy('id', 'desc')->get();
+        $result['categories'] = Category::with(['products', 'sub_categories', 'parents'])->where(['status' => 1])->get();
+        // dd($result['categories'][0]['parents']);
+        $result['home_categories'] = Category::whereNotNull('parent_id')->with(['products', 'sub_categories.products'])->where(['is_home' => 1, 'status' => 1])->get();
+        // $all_subcategories = $result['home_categories']->pluck('sub_categories')->collapse();
+        // $all_subcategories = $result['home_categories']->pluck('sub_categories')->collapse()->pluck('products')->collapse();
+        // foreach ($all_subcategories as $category) {
+        //     $category['products'] = $all_subcategories->pluck('products')->collapse();
+        // }
+        // dd($all_products);
+
+        // $result['home_categories'] = DB::table('categories as c1')->select('c1.*', 'c2.*')
+        //     ->selectRaw('select c1 left join categories as c2 on c2.parent_id = c1.id as sub_categories')
+        // ->leftJoin('categories as c2', 'c2.parentd_id', '=', 'c1.id')
+        // ->join('products as p', function ($query) {
+        // $query->whereRaw('p.category_id in (4)');
+        // })
+
+        // ->where(['c1.is_home' => 1, 'c1.status' => 1])->groupBy('c1.id')->get();
+        // ->selectRaw('0 as products')
         $result['products'] = Product::with('category')->where(['status' => 1])->get();
-        // dd($result['products']);
+        $result['trending_products'] = Product::where(['is_trending' => 1, 'status' => 1])->get();
+        $result['best_seller_products'] = Product::where(['is_best_seller' => 1, 'status' => 1])->get();
+        // dd($result['home_categories']);
         // var_dump($result['banners'][0]->image);
         return view('home', $result);
     }
@@ -79,7 +104,6 @@ class HomeController extends Controller
         $earth = new Earth();
         $result['categories'] = Category::where(['status' => 1])->get();
         $result['customer'] = User::find($request->user()->id);
-        // dd($result['customer']);
         $result['countries'] = $earth->getCountries()->useShortNames()->toArray();
         return view('front.profile', $result);
     }

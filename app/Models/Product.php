@@ -23,12 +23,25 @@ class Product extends Model
         'price',
         'qty',
         '3d_model',
+        'is_trending',
+        'is_best_seller',
         'status',
         'images',
         'desc',
     ];
-    function category()
+
+    public function category()
     {
-        return $this->hasOne(Category::class, 'id', 'category_id');
+        return $this->belongsTo(Category::class, 'category_id');
     }
+
+    // function sub_categories()
+    // {
+    //     return $this->hasMany(Category::class, 'id', 'dd');
+    // }
+
+    // public function sub_category_products()
+    // {
+    //     return $this->hasMany(Product::class, 'category_id');
+    // }
 }

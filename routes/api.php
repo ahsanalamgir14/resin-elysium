@@ -5,9 +5,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CommonController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\admin\ProductController;
 
 /*
-|--------------------------------------------------------------------------
+|--------------------
+------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
 |
@@ -25,3 +28,7 @@ Route::post('add-to-cart', [CartController::class, 'add_to_cart'])->name('add-to
 Route::post('search', [HomeController::class, 'search'])->name('search');
 Route::get('get-states', [CommonController::class, 'get_states']);
 Route::get('get-cities', [CommonController::class, 'get_cities']);
+Route::post('products-filter', [ProductController::class, 'apply_filters']);
+Route::post('update-cart', [CartController::class, 'update']);
+Route::post('delete-cart-item', [CartController::class, 'destroy']);
+Route::post('change-order-status', [OrderController::class, 'change_order_status']);

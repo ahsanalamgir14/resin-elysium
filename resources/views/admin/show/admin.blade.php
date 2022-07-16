@@ -83,7 +83,7 @@
                                     <select name="country" class="countries form-control" id="countryId" value="{{$admin->country}}" onchange="countryChange(this.value)">
                                         <option>--Select Country</option>
                                         @foreach($countries as $country)
-                                        @if ($country['code'] == $customer->country)
+                                        @if ($country['code'] == $admin->country)
                                             <option value="{{$country['code']}}" selected>{{$country['name']}}</option>
                                         @else
                                             <option value="{{$country['code']}}">{{$country['name']}}</option>
