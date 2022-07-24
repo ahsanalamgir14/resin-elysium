@@ -29,7 +29,7 @@ use App\Http\Controllers\StripeController;
 |
 */
 
-Auth::routes(['register' => false, 'reset' => false, 'verify' => false]);
+Auth::routes();
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index');
     Route::get('/home', 'index')->name('home');
