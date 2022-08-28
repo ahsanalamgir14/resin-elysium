@@ -20,7 +20,7 @@
                             <div class="row">
                                 <div class="col-md-6 form-group">
                                     <label class="control-label">First Name:</label>
-                                    <input class="form-control" id="first_name" name="first_name" value={{$admin->first_name}} type="text">
+                                    <input class="form-control" id="first_name" name="first_name" value="{{$admin->first_name}}" type="text">
                                 </div>
                                 @error('first_name')
                                     <span class="invalid-feedback" role="alert">
@@ -29,7 +29,7 @@
                                 @enderror
                                 <div class="col-md-6 form-group">
                                     <label class="control-label">Last Name:</label>
-                                    <input class="form-control" id="last_name" name="last_name" value={{$admin->last_name}} type="text">
+                                    <input class="form-control" id="last_name" name="last_name" value="{{$admin->last_name}}" type="text">
                                 </div>
                                 @error('last_name')
                                     <span class="invalid-feedback" role="alert">
@@ -40,7 +40,7 @@
                             <div class="row">
                                 <div class="col-md-6 form-group">
                                     <label class="control-label">Email:</label>
-                                    <input class="form-control" id="email" name="email" value={{$admin->email}} type="text">
+                                    <input class="form-control" id="email" name="email" value="{{$admin->email}}" type="text">
                                 </div>
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -69,7 +69,7 @@
                                 @enderror
                                 <div class="col-md-6 form-group">
                                     <label class="control-label">Phone:</label>
-                                    <input class="form-control" id="mobile" name="mobile" value={{$admin->mobile}} type="mobile">
+                                    <input class="form-control" id="mobile" name="mobile" value="{{$admin->mobile}}" type="mobile">
                                 </div>
                                 @error('phone')
                                     <span class="invalid-feedback" role="alert">
@@ -98,7 +98,7 @@
                                 @enderror
                                 <div class="col-md-6 form-group">
                                     <label class="control-label">State:</label>
-                                    <select name="state" class="states form-control" id="selectState" value={{$admin->state}} onchange="stateChange(this.value)">
+                                    <select name="state" class="states form-control" id="selectState" value="{{$admin->state}}" onchange="stateChange(this.value)">
                                     <option>--Please Select Country First</option>
                                     </select>
                                 </div>
@@ -111,7 +111,7 @@
                             <div class="row">
                                 <div class="col-md-6 form-group">
                                     <label class="control-label">City:</label>
-                                    <select name="city" class="cities form-control" value={{$admin->city}} id="selectCity">
+                                    <select name="city" class="cities form-control" value="{{$admin->city}}" id="selectCity">
                                     <option>--Please Select State First</option>
                                     </select>
                                 </div>
@@ -122,7 +122,7 @@
                                 @enderror
                                 <div class="col-md-6 form-group">
                                     <label class="control-label">Zip Code:</label>
-                                    <input class="form-control" id="zip_code" name="zip_code" value={{$admin->zip_code}} type="text">
+                                    <input class="form-control" id="zip_code" name="zip_code" value="{{$admin->zip_code}}" type="text">
                                 </div>
                                 @error('zip_code')
                                     <span class="invalid-feedback" role="alert">

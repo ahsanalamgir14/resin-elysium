@@ -4,12 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {{-- <meta name="csrf-token" id="csrf-token" content="{{ csrf_token() }}"> --}}
+    <meta name="csrf-token" id="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Resin Elysium') }}</title>
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+    {{-- <link rel="shortcut icon" type="image/png" href="{{ asset('images/favicon.png') }}"> --}}
     <link rel="stylesheet" href="{{ asset('css/material-design-iconic-font.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/fontawesome-stars.css') }}">
@@ -50,8 +50,8 @@
     <!-- <link href="{{ URL::asset('css/custom.css') }}" rel="stylesheet" type="text/css"> -->
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
     {{-- chaty link --}}
-    {{-- <script id="pixel-chaty" async="true" src="https://cdn.chaty.app/pixel.js?id=kStfjluw"></script> --}}
-    {{-- <script id="pixel-chaty" async="true" src="https://cdn.chaty.app/pixel.js?id=kStfjluw"></script> --}}
+    <script id="pixel-chaty" async="true" src="https://cdn.chaty.app/pixel.js?id=kStfjluw"></script>
+    <script id="pixel-chaty" async="true" src="https://cdn.chaty.app/pixel.js?id=kStfjluw"></script>
 </head>
 
 <body>
@@ -680,7 +680,7 @@
     <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
     {{-- chatbot --}}
     <script src="//code.tidio.co/k6rsxlhnnrieqag12dvbkxymbzdqjbek.js" async></script>
-    {{-- <script id="pixel-chaty" async="true" src="https://cdn.chaty.app/pixel.js?id=kStfjluw"></script> --}}
+    <script id="pixel-chaty" async="true" src="https://cdn.chaty.app/pixel.js?id=kStfjluw"></script>
 </body>
 
 </html>

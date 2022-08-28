@@ -89,6 +89,14 @@ class AdminController extends Controller
         return back();
     }
 
+    public function destroy($id)
+    {
+        $user = User::find($id);
+        $user->delete();
+        notify()->success('Admin Deleted Successfully');
+        return redirect()->back();
+    }
+
     public function auth(Request $request)
     {
         $validator = Validator::make($request->all(), [

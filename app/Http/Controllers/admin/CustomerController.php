@@ -108,12 +108,12 @@ class CustomerController extends Controller
         return view('admin.show.customer', $data);
     }
 
-    public function delete(Request $request, $id)
+    public function destroy($id)
     {
-        $model = User::find($id);
-        $model->delete();
-        notify()->success('Customer Deleted Successfully.');
-        return redirect('admin/customer');
+        $user = User::find($id);
+        $user->delete();
+        notify()->success('User Deleted Successfully.');
+        return redirect()->back();
     }
 
     public function status(Request $request, $status, $id)

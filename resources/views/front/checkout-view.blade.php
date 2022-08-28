@@ -268,6 +268,13 @@
                                     </tfoot>
                                 </table>
                             </div>
+                            <div>
+                                <ul>
+                                    <li class="invalid-feed stripe-error hide blink">
+                                        **Your card number is incorrect
+                                    </li>
+                                </ul>
+                            </div>
                             <div class="payment-method">
                                 <div class="payment-accordion">
                                     <div id="accordion">

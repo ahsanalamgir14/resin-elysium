@@ -42,9 +42,7 @@
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Email</th>
-                                    <!-- <th>Rent</th> -->
-                                    <!-- <th>Rent Status</th>
-                                    <th>ID card Number</th> -->
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,8 +52,17 @@
                                     <td>{{$customer->first_name}}</td>
                                     <td>{{$customer->last_name}}</td>
                                     <td>{{$customer->email}}</td>
-                                    <!-- <td>{{$customer->rent}}</td> -->
-                                    <!-- <td>{{$customer->id}}</td> -->
+                                    {{-- <td>{{$customer->rent}}</td> --}}
+                                    <td class="actions order-actions">
+                                        <a class="button" href="/admin/manage-admins/{{ $customer->id }}"><i class="fas fa-edit"></i></a>
+                                        <form id="submit_delete"
+                                            action="{{ route('manage-admins.destroy', $customer->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-primary" type="submit"><i class="fas fa-trash"></i></button>
+                                        </form>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

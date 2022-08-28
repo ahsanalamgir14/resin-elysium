@@ -42,6 +42,7 @@
                                         <th>Email</th>
                                         <th>Order Total</th>
                                         <th>Status</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -53,7 +54,7 @@
                                             <td>{{ $order->last_name }}</td>
                                             <td>{{ $order->email }}</td>
                                             <td>Rs.{{ number_format($order->total_amount, 2) }}/-</td>
-                                            <td id="admin-status">
+                                            <td id="admin-status" class="admin-status">
                                                 <select class="form-select admin-status" name="admin-status" id="admin-status-{{$order->id}}"
                                                     onchange="changeOrderStatus({{ $order->id }})">
                                                     @foreach ($order_status as $status)
@@ -64,6 +65,16 @@
                                                         @endif
                                                     @endforeach
                                                 </select>
+                                            </td>
+                                            <td class="actions order-actions">
+                                                <a class="button" href="/admin/manage-orders/{{ $order->id }}"><i class="fas fa-eye"></i></a>
+                                                <form id="submit_delete"
+                                                    action="{{ route('manage-orders.destroy', $order->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-primary" type="submit"><i class="fas fa-trash"></i></button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach

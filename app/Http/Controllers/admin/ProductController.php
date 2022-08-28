@@ -176,6 +176,7 @@ class ProductController extends Controller
             }
         }
         $product->delete();
+        notify()->success('Product Deleted Successfully');
         return redirect()->back();
     }
 

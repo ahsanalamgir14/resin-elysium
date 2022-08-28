@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header"><h3>{{ __('Login') }}</h3></div>
+                <div class="card-header"><h1>{{ __('Login') }}</h1></div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
@@ -68,14 +68,14 @@
                                 </button>
                             </div>
                         </div>
-                        <!-- <div class="row">
+                        <div class="row">
                             @if (Route::has('register'))
                                 <p class="mb-0 text-secondary text-center"> Do not have an account? </p>
-                                <a class="shadow-none text-dark text-center" href="{{ route('register') }}">
-                                    {{ __('Click here to create one') }}
+                                <a class="text-dark shadow-none text-center" href="{{ route('register') }}">
+                                    {{ __('Signup here') }}
                                 </a>
                             @endif
-                        </div> -->
+                        </div>
                     </form>
                 </div>
             </div>
