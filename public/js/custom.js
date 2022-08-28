@@ -39,13 +39,22 @@ function changeTypeConfirm() {
 }
 
 $('tr[data-href]').on("click", function (e) {
-    var found = $(e.target).hasClass('admin-status');
-    var found = $(e.target).hasClass('delete-btn');
-    if (found) {
-        return false;
-    }
-    else {
-        document.location = $(this).data('href');
+    var status = $(e.target).hasClass('admin-status');
+    var del = $(e.target).hasClass('delete-btn');
+    var actions = $(e.target).hasClass('actions');
+    // alert(status);
+    // alert(del);
+    try {
+        if (del || status || actions) {
+            throw "exit";
+            return false;
+        }
+        else {
+            // alert('redirecting ');
+            document.location = $(this).data('href');
+        }
+    } catch (e) {
+        console.log(e);
     }
 });
 
@@ -95,10 +104,9 @@ function submit_order() {
 
                 function stripeResponseHandler(status, response) {
                     if (response.error) {
-                        $('.error')
+                        $('.stripe-error')
                             .removeClass('hide')
-                            .find('.alert')
-                            .text(response.error.message);
+                            .html(response.error.message);
                     } else {
                         /* token contains id, last4, and card type */
                         var token = response['id'];
@@ -365,7 +373,7 @@ function delete_cart_item(elem, product_id, user_id) {
 
 function changeOrderStatus(order_id) {
     var newStatus = $('#admin-status-' + order_id).val();
-    alert(newStatus);
+    // alert(newStatus);
     // return;
     $.ajax({
         url: '/api/change-order-status',
@@ -389,3 +397,7 @@ function deleteCategory() {
     $('#submit_delete').submit();
     // alert('deleted');
 }
+
+$('#orderForm :input').change(function (e) {
+    $('.stripe-error').addClass('hide');
+});

@@ -54,12 +54,14 @@
                                     <td>{{$product->SKU}}</td>
                                     <td class="text-center"> <img src="{{asset('storage/products/'.$product->main_image)}}" alt="{{$product->main_image}}" height="100" width="150px"></td>
                                     <td>{{$product->status}}</td>
-                                    <td>
-                                        <a href="/admin/manage-products/{{$product->id}}">Edit</a>
-                                        <form id="submit_delete" action="{{ route('manage-products.destroy',$product->id)}}" method="POST">
+                                    <td class="actions">
+                                        <a class="button" href="/admin/manage-products/{{ $product->id }}"><i class="fas fa-edit"></i></a>
+                                        <form id="submit_delete"
+                                            action="{{ route('manage-products.destroy', $product->id) }}"
+                                            method="POST">
                                             @csrf
-                                            @method("DELETE")
-                                            <button type="submit" class="btn btn-primary">Delete</button>
+                                            @method('DELETE')
+                                            <button class="btn btn-primary" type="submit"><i class="fas fa-trash"></i></button>
                                         </form>
                                     </td>
                                 </tr>

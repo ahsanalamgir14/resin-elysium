@@ -133,3 +133,22 @@ td.actions {
     display: flex;
     height: 230px;
 }
+
+.hide {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+.blink {
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0 !important;
+    }
+}
+
+.order-actions {
+    height: 70px !important;
+}

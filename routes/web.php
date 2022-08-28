@@ -10,7 +10,7 @@ use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\CustomerController;
 use App\Http\Controllers\admin\HomeBannerController;
 use App\Http\Controllers\front\FrontController;
-use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CommonController;
@@ -28,14 +28,12 @@ use App\Http\Controllers\StripeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Route::any('/{any}', function () { return redirect('/home');})->where('any', '^(?!api).*$');
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index');
     Route::get('/home', 'index')->name('home');
-});
-Route::get('pushInJS', function(){
-    return view('pushInJS');
 });
 Route::get('product-view', [ProductController::class, 'product_view']);
 Route::get('cart-view', [CartController::class, 'cart_view']);
@@ -57,10 +55,6 @@ Route::group(['middleware' => ['auth']], function () {
 Route::resource('contact-us', ContactController::class);
 Route::post('store-query', [ContactController::class, 'store'])->name('save_query');
 Route::get('about-us', [CommonController::class, 'about_us']);
-// Route::fallback(function () {
-//     //
-// });
-// Route::any('/{any}', function () { return redirect('/home');})->where('any', '^(?!api).*$');
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::resource('manage-customers', CustomerController::class);

@@ -104,8 +104,6 @@ class CartController extends Controller
 
     public function add_to_cart(Request $request)
     {
-        // dd($request->all());
-        $model = new Cart();
         if (Auth::check()) {
             $user_id = $request->user()->id;
             $user_type = 'user';

@@ -125,9 +125,8 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::find($id);
-        unlink('storage/categories/' . $category->image);
-        $category->delete();
+        $order = Order::find($id);
+        $order->delete();
         return redirect()->back();
     }
 
@@ -165,7 +164,6 @@ class OrderController extends Controller
     }
     public function place_order(Request $request)
     {
-        // dd($request->all());
         $request->validate([
             "first_name" => 'required',
             "last_name" => 'required',

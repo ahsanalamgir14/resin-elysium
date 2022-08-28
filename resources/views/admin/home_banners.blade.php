@@ -44,6 +44,7 @@
                                     <th>Link</th>
                                     <th>Image</th>
                                     <th>Status</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -55,6 +56,16 @@
                                     <td>{{$banner->btn_link}}</td>
                                     <td class="text-center"> <img src="{{asset('storage/banners/'.$banner->image)}}" alt="{{$banner->image}}" height="150" width="200px"></td>
                                     <td>{{$banner->status}}</td>
+                                    <td class="actions">
+                                        <a class="button" href="/admin/manage-banners/{{ $banner->id }}"><i class="fas fa-edit"></i></a>
+                                        <form id="submit_delete"
+                                            action="{{ route('manage-banners.destroy', $banner->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-primary" type="submit"><i class="fas fa-trash"></i></button>
+                                        </form>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

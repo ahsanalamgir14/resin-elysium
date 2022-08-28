@@ -106,7 +106,7 @@
             if (!$form.data('cc-on-file')) {
                 e.preventDefault();
                 Stripe.setPublishableKey($form.data('stripe-publishable-key'));
-                Stripe.createToken({
+                const res = Stripe.createToken({
                     number: $('.card-number').val(),
                     cvc: $('.card-cvc').val(),
                     exp_month: $('.card-expiry-month').val(),
@@ -116,13 +116,17 @@
         });
 
         function stripeResponseHandler(status, response) {
+            // alert(response);
             if (response.error) {
-                $('.error')
-                    .removeClass('hide')
-                    .find('.alert')
-                    .text(response.error.message);
+                // alert(response.error.message);
+                $('.stripe-error')
+                    // .removeClass('hide')
+                    // .find('.alert')
+                    .html(response.error.message);
             } else {
                 /* token contains id, last4, and card type */
+                // alert(response['id']);
+                // throw new Exception('eeo')
                 var token = response['id'];
                 $form.find('input[type=text]').empty();
                 $form.append("<input type='hidden' name='source' value='" + token + "'/>");
