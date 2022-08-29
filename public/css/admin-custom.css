@@ -64,15 +64,40 @@
 
 .bs4-order-tracking li.active {
     font-weight: bold;
-    color: #dc3545
+    color: #4BB543
 }
 
 .bs4-order-tracking li.active>div {
-    background: #dc3545
+    background: #4BB543
 }
 
 .bs4-order-tracking li.active:after {
+    background: #4BB543
+}
+
+.bs4-order-tracking li.inactive {
+    font-weight: bold;
+    color: #dc3545
+}
+
+.bs4-order-tracking li.inactive>div {
     background: #dc3545
+}
+
+.bs4-order-tracking li.inactive:after {
+    background: #dc3545
+}
+
+.bs4-order-tracking li.onhold {
+    font-weight: bold;
+}
+
+.bs4-order-tracking li.onhold>div {
+    background: yellow
+}
+
+.bs4-order-tracking li.onhold:after {
+    background: yellow
 }
 
 .card-timeline {

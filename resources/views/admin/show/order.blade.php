@@ -51,17 +51,17 @@
                                     <div class="row">
                                         <div class="card card-timeline px-2 border-none">
                                             <ul class="bs4-order-tracking">
-                                                <li class="step active">
-                                                    <div><i class="fas fa-user"></i></div> Order Placed
+                                                <li @class(['step', 'active' => $order_status_id <= 5, 'inactive' => $order_status_id > 5])>
+                                                    <div><i class="fa fa-user"></i></div> Order Placed
                                                 </li>
-                                                <li class="step active">
-                                                    <div><i class="fas fa-bread-slice"></i></div> In transit
+                                                <li @class(['step', 'active' => in_array($order_status_id, [2,3,4]), 'onhold' => $order_status_id == 5, 'inactive' => $order_status_id > 5])>
+                                                    <div><i class="fa fa-archive"></i></div> {{ ($order_status_id != 5) ? 'Approved' : 'OnHold'}}
                                                 </li>
-                                                <li class="step">
-                                                    <div><i class="fas fa-truck"></i></div> Out for delivery
+                                                <li @class(['step', 'active' => in_array($order_status_id, [3,4]), 'inactive' => $order_status_id > 5])>
+                                                    <div><i class="fa fa-truck"></i></div> Out for delivery
                                                 </li>
-                                                <li class="step ">
-                                                    <div><i class="fas fa-birthday-cake"></i></div> Delivered
+                                                <li @class(['step', 'active' => in_array($order_status_id, [4]), 'inactive' => $order_status_id > 5])>
+                                                    <div><i class="fa fa-birthday-cake"></i></div> {{ ($order_status_id <= 5) ? 'Completed' : $order_status['status'] }}
                                                 </li>
                                             </ul>
                                         </div>
