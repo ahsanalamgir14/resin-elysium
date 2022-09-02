@@ -98,7 +98,11 @@
                                             <div class="inc qtybutton product-qtybutton"><i class="fa fa-angle-up"></i></div>
                                         </div>
                                     </div>
+                                    @if(!isset($product->quotes))
                                     <button class="add-to-cart" type="button" onclick="add_to_cart(this, {{$product->id}})">Add to cart</button>
+                                    @else
+                                    <button class="add-to-cart" type="button" onclick="$('#addToCartDetails').modal('show');">Add to Part</button>
+                                    @endif
                                 </form>
                             </div>
                         </div>
@@ -395,7 +399,11 @@
                                                     <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
                                                 </div>
                                             </div>
+                                            @if(isset($product->quotes))
                                             <button class="add-to-cart" type="button" onclick="add_to_cart($id)">Add to cart</button>
+                                            @else
+                                            <button class="add-to-cart" type="button" onclick="$('#addToCartDetails').modal('show');">Add to Phart</button>
+                                            @endif
                                         </form>
                                     </div>
                                     <div class="product-additional-info pt-25">
@@ -418,5 +426,52 @@
         </div>
     </div>
     <!-- Quick View | Modal Area End Here -->
+</div>
+
+<div class="modal modal-wrapper" id="addToCartDetails">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="card-title">Add or Review Details</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p>This Product require {{$product->no_of_quotes}} Fields to insert or review. Following quotes will be printed on your Art work.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <input id="no_of_quotes" value="{{$product->no_of_quotes}}" name="no_of_quotes[]" type="hidden">
+                    <div class="col-md-12">
+                        @if(isset($product->quotes))
+                            @foreach ($product->quotes as $key => $quote)
+                            <div class="row" id="dynamic-quotes">
+                                <div class="col-md-12 form-group">
+                                    <label for="quote-{{$key+1}}" class="control-label">Quote {{$key+1}}</label>
+                                    <input id="quote" value="{{$quote}}" name="quotes[]" type="text"
+                                        class="form-control" >
+                                    @error('quote-{{$key+1}}')
+                                        <span class="invalid-feedback d-inline" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            @endforeach
+                        @endif
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 float-right">
+                        <div class="feedback-btn pb-15">
+                            <a href="javascript:void(0)" class="add-to-cart" type="button" onclick="add_to_cart(this, {{$product->id}})">Add to cart</a>
+                            <a href="#" class="close" data-dismiss="modal" aria-label="Close">Close</a>
+                            {{-- <a href="#">Submit</a> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection

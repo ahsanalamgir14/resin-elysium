@@ -131,13 +131,13 @@ class AdminController extends Controller
     {
         $customers_count = User::where(['role' => 'customer'])->count();
         $today_orders = Order::where('created_at', '>=', Carbon::today())
-            ->whereNotIn('order_status_id', [4, 5])->get();
+            ->whereNotIn('order_status_id', [5, 6, 7])->get();
         $weekly_orders = Order::with('User')->where('created_at', '>=', Carbon::now()->startOfWeek())
             ->where('created_at', '<=', Carbon::now()->endOfWeek())
             ->get();
         $monthly_orders = Order::where('created_at', '>', Carbon::now()->startOfMonth())
             ->where('created_at', '<', Carbon::now()->endOfMonth())
-            ->whereNotIn('order_status_id', [4, 5])->get();
+            ->whereNotIn('order_status_id', [5, 6, 7])->get();
         $data['customers_count'] = number_format($customers_count);
         $data['today_orders'] = number_format($today_orders->count());
         $data['today_revenue'] = number_format($today_orders->sum('total_amount'), 2);

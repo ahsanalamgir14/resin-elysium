@@ -21,7 +21,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group has-success">
                                             <label for="name" class="control-label">Product Name</label>
-                                            <input id="name" value="" name="name" type="text" class="form-control">
+                                            <input id="name" value="{{ old('name') }}" name="name" type="text" class="form-control">
                                             @error('name')
                                             <span class="invalid-feedback d-inline" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -58,7 +58,7 @@
                                     </div>
                                     <div class="col-md-6 form-group">
                                         <label for="slug" class="control-label">Product Slug</label>
-                                        <input id="slug" value="" name="slug" type="text" class="form-control" value="">
+                                        <input id="slug" value="" name="slug" type="text" class="form-control" value="{{ old('slug') }}">
                                         @error('slug')
                                         <span class="invalid-feedback d-inline" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -69,7 +69,7 @@
                                 <div class="row">
                                     <div class="col-md-6 form-group">
                                         <label for="type" class="control-label">Product Type </label>
-                                        <input id="type" value="" name="type" type="text" class="form-control" value="">
+                                        <input id="type" value="" name="type" type="text" class="form-control" value="{{ old('type') }}">
                                         @error('type')
                                         <span class="invalid-feedback d-inline" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -78,7 +78,7 @@
                                     </div>
                                     <div class="col-md-6 form-group">
                                         <label for="SKU" class="control-label">Product SKU</label>
-                                        <input id="SKU" value="" name="SKU" type="text" class="form-control">
+                                        <input id="SKU" value="{{ old('SKU') }}" name="SKU" type="text" class="form-control">
                                         @error('SKU')
                                         <span class="invalid-feedback d-inline" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -89,7 +89,7 @@
                                 <div class="row">
                                     <div class="col-md-6 form-group">
                                         <label for="price" class="control-label">Product Price</label>
-                                        <input id="price" value="" name="price" type="text" class="form-control" value="">
+                                        <input id="price" value="{{ old('price') }}" name="price" type="text" class="form-control" value="">
                                         @error('price')
                                         <span class="invalid-feedback d-inline" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -98,7 +98,7 @@
                                     </div>
                                     <div class="col-md-6 form-group">
                                         <label for="qty" class="control-label">Available Quantity</label>
-                                        <input id="qty" value="" name="qty" type="text" class="form-control" value="">
+                                        <input id="qty" value="{{ old('qty') }}" name="qty" type="text" class="form-control" value="">
                                         @error('qty')
                                         <span class="invalid-feedback d-inline" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -109,7 +109,7 @@
                                 <div class="row">
                                     <div class="col-md-6 form-group">
                                         <label for="3d_model" class="control-label">3d Image Link</label>
-                                        <input id="3d_model" value="" name="3d_model" type="text" class="form-control" value="">
+                                        <input id="3d_model" value="{{ old('3d_model') }}" name="3d_model" type="text" class="form-control" value="">
                                         @error('3d_model')
                                         <span class="invalid-feedback d-inline" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -118,7 +118,7 @@
                                     </div>
                                     <div class="col-md-6 form-group">
                                         <label for="status" class="control-label">Status</label>
-                                        <select id="status" value="" name="status" type="text" class="form-control">
+                                        <select id="status" value="{{ old('status') }}" name="status" type="text" class="form-control">
                                             <option value="1">Activate</option>
                                             <option value="0">Deactivate</option>
                                         </select>
@@ -165,6 +165,35 @@
                                         </span>
                                         @enderror
                                     </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 form-group">
+                                        <label for="no_of_quotes" class="control-label">Number of Quotes</label>
+                                        <select data-default="0" id="no_of_quotes" name="no_of_quotes" type="text" class="form-control">
+                                            <option value="">No of Quotes</option>
+                                            @for($i=0; $i<=10; $i++)
+                                            <option value="{{$i}}" {{ $i == 0 ? 'selected' : '' }}>{{$i}}</option>
+                                            @endfor
+                                        </select>
+                                        @error('no_of_quotes')
+                                        <span class="invalid-feedback d-inline" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row" id="dynamic-quotes">
+                                    {{-- <div class="col-md-12 form-group">
+                                        <label for="quote-1" class="control-label">Quote 1</label>
+                                        <input id="quote" value="" name="quotes[]" type="text" class="form-control" value="">
+                                        @error('quote-1')
+                                        <span class="invalid-feedback d-inline" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div> --}}
+                                </div>
+                                <div id="quotes-copy">
                                 </div>
                                 <div class="d-flex">
                                     <h2>Add More Product Images</h2>

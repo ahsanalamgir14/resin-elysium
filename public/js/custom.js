@@ -60,13 +60,18 @@ $('tr[data-href]').on("click", function (e) {
 
 
 function add_to_cart(el, product_id) {
-
+    
+    k = 0;
+    var quotes = [];
     var qty = $(el).parent().find("input").val();
     if (!qty) {
         qty = 1;
     }
-    // alert(product_id, qty);
-    // $('#add-to-cart-form').preventDefault(e);
+    var no_of_quotes = $('#no_of_quotes').val();
+    $('#dynamic-quotes input').each(function () {
+        quotes[k++] = $(this).val();
+    });
+
     $.ajax({
         url: 'api/add-to-cart',
         method: 'POST',
@@ -75,7 +80,9 @@ function add_to_cart(el, product_id) {
         },
         data: {
             product_id: product_id,
-            qty: qty
+            qty: qty,
+            no_of_quotes: no_of_quotes,
+            quotes: quotes
         },
         success: function (data) {
             if (data.status) {
@@ -401,3 +408,42 @@ function deleteCategory() {
 $('#orderForm :input').change(function (e) {
     $('.stripe-error').addClass('hide');
 });
+
+
+$('#no_of_quotes').on('change', function () {
+    var i = $('#no_of_quotes').val();
+
+    var contentToRemove = document.querySelectorAll("#dynamic-quotes");
+    // var values = $("input[name='quotes[]']")
+    //     .map(function () { return $(this).val(); }).get();
+    // alert(values);
+
+    var arr = [];
+    k = 0;
+    $('#dynamic-quotes input').each(function () {
+        arr[k++] = $(this).val();
+    });
+    $(contentToRemove).remove();
+    var section = $('#quotes-copy');
+    for (var j = 1; j <= i; j++) {
+        html = '<div class="row" id="dynamic-quotes">' +
+            '<div class="col-md-12 form-group">' +
+            '<label for="quote-"' + j + 'class="control-label">Quote' + j + '</label>';
+        if (j < i) {
+            html += '<input id="quote-"' + j + 'value="" name="quotes[]" type="text" class="form-control" value="' + arr[j - 1] + '">'
+        } else {
+            html += '<input id="quote-"' + j + 'value="" name="quotes[]" type="text" class="form-control" value="">';
+        }
+        html += '</div>' +
+            '</div>';
+        $(html).insertBefore(section);
+    }
+
+});
+function updateQuotes() {
+    var section = $('#quotes-copy');
+    var i = $('#no_of_quotes').val();
+    alert(i);
+
+    $(html).insertBefore(section);
+}

@@ -200,9 +200,46 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="d-flex">
+                                    <div class="row">
+                                        <div class="col-md-2 form-group">
+                                            <label for="no_of_quotes" class="control-label">Number of Quotes</label>
+                                            <select data-default="0" id="no_of_quotes" name="no_of_quotes"
+                                                type="select" class="form-control">
+                                                <option value="">No of Quotes</option>
+                                                @for ($i = 0; $i <= 10; $i++)
+                                                    <option value="{{ $i }}"
+                                                        {{ $i == $no_of_quotes ? 'selected' : '' }}>{{ $i }}
+                                                    </option>
+                                                @endfor
+                                            </select>
+                                            @error('no_of_quotes')
+                                                <span class="invalid-feedback d-inline" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    @if(isset($quotes))
+                                    @foreach ($quotes as $key => $quote)
+                                    <div class="row" id="dynamic-quotes">
+                                        <div class="col-md-12 form-group">
+                                            <label for="quote-{{$key+1}}" class="control-label">Quote {{$key+1}}</label>
+                                            <input id="quote" value="{{$quote}}" name="quotes[]" type="text"
+                                                class="form-control" >
+                                            @error('quote-{{$key+1}}')
+                                                <span class="invalid-feedback d-inline" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                    @endif
+                                    <div id="quotes-copy">
+                                    </div>
+                                    <div class="d-flex mb-3">
                                         <h2>Add More Product Images</h2>
-                                        <small class="mt-3 ml-2">You can add more product images by selecting the
+                                        <small class="ml-3">You can add more product images by selecting the
                                             images from following button.</small>
                                     </div>
                                     <div class="images_class" id="main_images">

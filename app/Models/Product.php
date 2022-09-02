@@ -13,6 +13,7 @@ class Product extends Model
     protected $table = "products";
     protected $casts = [
         'images' => 'array',
+        'quotes' => 'array',
     ];
     protected $guarded = [];
     protected $fillable = [
@@ -30,6 +31,8 @@ class Product extends Model
         'status',
         'images',
         'desc',
+        'no_of_quotes',
+        'quotes',
     ];
 
     public function category()

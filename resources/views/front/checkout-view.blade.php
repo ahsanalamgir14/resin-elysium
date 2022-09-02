@@ -289,61 +289,12 @@
                                                         Delivery</label>
                                                 </div>
                                             </div>
-                                            <div class="card">
-                                                <div class="card-header" id="#payment-2">
-                                                    <div class="form-check">
-                                                        <input form="orderForm" class="form-check-input card-payment"
-                                                            type="radio" name="payment_type" value="card"
-                                                            id="card-payment">
-                                                        <label class="form-check-label" for="card-payment">Card
-                                                            Payment</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card" id="card-payment-form">
-                                                <div class='form-row row mt-5 mb-5'>
-                                                    <div class="col-xs-12 col-md-6 form-group checkout-form-list mb-5">
-                                                        <label class='control-label'>Name on Card</label>
-                                                        <input form="orderForm" size='4' type='text'
-                                                            id="card_name">
-                                                    </div>
-                                                    <div
-                                                        class='col-xs-12 col-md-6 form-group checkout-form-list required mb-5'>
-                                                        <label class='control-label'>Card Number</label>
-                                                        <input form="orderForm" autocomplete='off' class=' card-number'
-                                                            size='20' type='text' id='card_number'>
-                                                    </div>
-                                                </div>
-                                                <div class='form-row row mb-5'>
-                                                    <div
-                                                        class='col-xs-12 col-md-4 form-group cvc checkout-form-list required mb-5'>
-                                                        <label class='control-label'>CVC</label>
-                                                        <input form="orderForm" autocomplete='off' class=' card-cvc'
-                                                            placeholder='ex. 311' size='4' type='text'
-                                                            id="card_cvc">
-                                                    </div>
-                                                    <div
-                                                        class='col-xs-12 col-md-4 form-group expiration checkout-form-list required mb-5'>
-                                                        <label class='control-label'>Expiration Month</label>
-                                                        <input form="orderForm" class=' card-expiry-month'
-                                                            placeholder='MM' size='2' type='text'
-                                                            id="expiry_month">
-                                                    </div>
-                                                    <div
-                                                        class='col-xs-12 col-md-4 form-group expiration checkout-form-list required mb-5'>
-                                                        <label class='control-label'>Expiration Year</label>
-                                                        <input form="orderForm" class=' card-expiry-year'
-                                                            placeholder='YYYY' size='4' type='text'
-                                                            id="expiry_year">
-                                                    </div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <input form="orderForm" type="hidden" name="amount"
-                                                        value="{{ $total }}">
-                                                    <input form="orderForm" type="hidden" name="currency"
-                                                        value="PKR">
-                                                    <input form="orderForm" type="hidden" name="description"
-                                                        value="Online Payment">
+                                        </div>
+                                        {{-- card Payment here --}}
+                                        <div class="card">
+                                            <div class="card-header" id="#payment-12">
+                                                <div class="form-check">
+                                                    <p style="color:red;">Card Payment Coming Soon...</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -375,6 +326,6 @@
     @endif
     <!--Checkout Area End-->
 
-    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    //stripe script here
 
 @endsection
