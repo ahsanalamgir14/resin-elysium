@@ -200,17 +200,11 @@ class OrderController extends Controller
                 "created_at" => Carbon::now(),
                 "updated_at" => Carbon::now()
             ];
-            // dd($arr);
             $order_id = Order::insertGetId($arr);
-            // dd($order);
             if ($order_id > 0) {
                 foreach ($cart_items as $list) {
-                    $order_item['order_id'] = $order_id;
-                    $order_item['product_id'] = $list->id;
-                    $order_item['price'] = $list->price;
-                    $order_item['qty'] = $list->qty;
-                    //change to bulk 
-                    DB::table('order_items')->insert($order_item);
+                    $list->order_id = $order_id;
+                    OrderItem::create((array)$list);
                 }
                 //delete-cart-items
                 DB::table('carts')->where(['user_id' => $user_id, 'user_type' => 'user'])->delete();
@@ -229,22 +223,22 @@ class OrderController extends Controller
                     Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
                     $res = Stripe\Charge::create($stripe);
                     if ($res->status == 'succeeded') {
-                        $payment['payment_id'] = $res->id;
-                        $payment['order_id'] = $order_id;
-                        $payment['type'] = $res->payment_method_details->card->brand;
-                        $payment['currency'] = $res->currency;
-                        $payment['account_no'] = $res->source->fingerprint;
-                        $payment['last_four'] = $res->source->last4;
-                        $payment['desc'] = $res->description;
-                        $payment['status'] = $res->status;
-                        Payment::create($payment);
+                        $res->order_id = $order_id;
+                        Payment::create((array)$res);
+                        // $payment['payment_id'] = $res->id;
+                        // $payment['order_id'] = $res->order_id;
+                        // $payment['type'] = $res->payment_method_details->card->brand;
+                        // $payment['currency'] = $res->currency;
+                        // $payment['account_no'] = $res->source->fingerprint;
+                        // $payment['last_four'] = $res->source->last4;
+                        // $payment['desc'] = $res->description;
+                        // $payment['status'] = $res->status;
                     }
                 }
 
-                // $request->session()->put('ORDER_ID', $order_id);
-
                 $data = ['data' => $arr, 'user_id' => $request->user()->id, 'items' => $cart_items, 'items_count' => count($cart_items)];
-                $user['to'] = $request->email;
+                $user['to'] = explode(',', env('ADMIN_EMAILS'));
+                array_push($user['to'], $request->email);
 
                 Mail::send('front/order_email', $data, function ($messages) use ($user) {
                     $messages->to($user['to']);

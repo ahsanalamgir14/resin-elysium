@@ -39,6 +39,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'name' => 'required',
             'main_image' => 'required',
@@ -52,6 +53,8 @@ class ProductController extends Controller
             '3d_model' => 'required',
             'status' => 'required',
             'desc' => 'required',
+            // 'no_of_quotes' => 'required',
+            // "quotes.*"  => "required|min:3",
         ]);
         $data = $request->all();
         // dd($data);
@@ -186,7 +189,7 @@ class ProductController extends Controller
         $result['product'] = Product::with('category')->where('slug', $request->slug)->first();
         $result['related_products'] = Product::with('category')->where('category_id', $result['product']->category_id)
             ->where('slug', '!=', $request->slug)->get();
-        // dd($result['related_products']);
+        // dd($result['product']);
         return view('front.product-view', $result);
     }
 

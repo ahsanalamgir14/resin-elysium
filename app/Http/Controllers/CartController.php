@@ -6,6 +6,7 @@ use Throwable;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\OrderQuote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -111,6 +112,8 @@ class CartController extends Controller
             $cart = Cart::where(['user_id' => $request->user()->id, 'product_id' => $request->product_id])->first();
             if ($cart) {
                 // dd('cart update for user');
+                $order_quote = OrderQuote::where('id', $cart->order_quote_id)->first();
+                $order_quote->update($request->only(['no_of_quotes', 'quotes']));
                 $request['user_id'] = $user_id;
                 $request['user_type'] = $user_type;
                 $cart->update($request->all());
@@ -131,8 +134,11 @@ class CartController extends Controller
                 // $guest_user_id = $request->session()->put(['guest_user_id' => mt_rand(10000000, 99999999)]);
             }
             $cart = Cart::where(['user_id' => $guest_user_id, 'product_id' => $request->product_id])->first();
+            
             if ($cart) {
                 // dd('cart update for guest');
+                $order_quote = OrderQuote::where('id', $cart->order_quote_id)->first();
+                $order_quote->update($request->only(['no_of_quotes', 'quotes']));
                 $request['user_id'] = $guest_user_id;
                 $request['user_type'] = 'guest';
                 $cart->update($request->all());
@@ -147,8 +153,11 @@ class CartController extends Controller
             $user_type = 'guest';
         }
 
+        $order_quote = OrderQuote::create($request->only(['no_of_quotes', 'quotes']));
+
         $request['user_id'] = $user_id;
         $request['user_type'] = $user_type;
+        $request['order_quote_id'] = $order_quote->id;
         Cart::create($request->all());
         notify()->success('Product added to cart successfully');
         return response()->json([
