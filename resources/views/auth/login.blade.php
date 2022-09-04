@@ -30,7 +30,7 @@
 
                             <div class="input-group">
                                 <input id="password" type="password" class="form-control text-input class="@error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="required*">
-                                <div class="input-group-append">
+                                <div class="input-group-append icon-eye">
                                     <span class="input-group-text align-icon" onclick="changeType()">
                                         <span class="type-text" style="display:none"><div><i class="fa fa-eye"></i></div></span>
                                         <span class="type-pass"><div><i class="fa fa-eye-slash"></i></div></span>
