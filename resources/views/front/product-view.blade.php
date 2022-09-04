@@ -435,6 +435,9 @@
                 <h3 class="card-title">Add or Review Details</h3>
             </div>
             <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
                 <div class="row">
                     <div class="col-lg-12">
                         <p>This Product require {{$product->no_of_quotes}} Fields to insert or review. Following quotes will be printed on your Art work.</p>

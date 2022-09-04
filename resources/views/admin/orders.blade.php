@@ -8,9 +8,12 @@
     <div class="content-header">
         @yield('content')
         <div class="container-fluid">
-            <div class="row mb-2">
+            <div class="row">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Orders</h1>
+                    <a href="{{url('admin/manage-orders/create')}}">
+                        <button class="btn btn-success mb-4">Add New Order</button>
+                    </a>
+                    {{-- <h1 class="m-0">Orders</h1> --}}
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -28,11 +31,11 @@
             <!-- <button class="btn btn-success mb-3">Add New Order</button> -->
             <div class="row">
                 <div class="col-12">
-                    {{-- <div class="card">
+                    <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Orders Data</h3>
                         </div>
-                        <div class="card-body"> --}}
+                        <div class="card-body">
                             <table id="example1" class="table table-hover">
                                 <thead>
                                     <tr>
@@ -80,8 +83,8 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                        {{-- </div>
-                    </div> --}}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

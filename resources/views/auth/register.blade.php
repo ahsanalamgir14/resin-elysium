@@ -58,7 +58,7 @@
 
                             <div class="input-group">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror text-input" name="password" required autocomplete="new-password" placeholder="required*">
-                                <div class="input-group-append">
+                                <div class="input-group-append icon-eye">
                                     <span class="input-group-text align-icon" onclick="changeType()">
                                         <span class="type-text" style="display:none"><div><i class="fa fa-eye"></i></div></span>
                                         <span class="type-pass"><div><i class="fa fa-eye-slash"></i></div></span>
@@ -77,7 +77,7 @@
 
                             <div class="input-group">
                                 <input id="password-confirm" type="password" class="form-control text-input" name="password_confirmation" required autocomplete="new-password" placeholder="required*">
-                                <div class="input-group-append">
+                                <div class="input-group-append icon-eye">
                                     <span class="input-group-text align-icon" onclick="changeTypeConfirm()">
                                         <span class="type-text-confirm" style="display:none"><div><i class="fa fa-eye"></i></div></span>
                                         <span class="type-pass-confirm"><div><i class="fa fa-eye-slash"></i></div></span>

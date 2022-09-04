@@ -8,8 +8,8 @@
     <title>{{ config('app.name', 'Resin Elysium') }}</title>
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    {{-- <link rel="shortcut icon" type="image/png" href="{{ asset('images/favicon.png') }}"> --}}
+    {{-- <link rel="shortcut icon" type="image/ico" href="{{ asset('favicon.ico') }}"> --}}
+    <link rel="icon" type="image/png" href="https://i.imgur.com/M5g3PmG.png">
     <link rel="stylesheet" href="{{ asset('css/material-design-iconic-font.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/fontawesome-stars.css') }}">
@@ -163,42 +163,43 @@
                                                 </div>
                                                 <span></span>
                                                 <div class="minicart">
-                                                    @if (isset($cart_items) && !empty($cart_items))
-                                                        <ul class="minicart-product-list">
-                                                            @foreach ($cart_items as $item)
-                                                                <li>
-                                                                    <a href="" class="minicart-product-image">
-                                                                        <img class="minicart-image"
-                                                                            src="{{ 'storage/products/' . $item->product->main_image }}"
-                                                                            alt="cart products">
-                                                                    </a>
-                                                                    <div class="minicart-product-details">
-                                                                        <h6><a
-                                                                                href="single-product.html">{{ $item->product->name }}</a>
-                                                                        </h6>
-                                                                        <span>{{ $item->product->price }} x
-                                                                            {{ $item->qty }}</span>
-                                                                    </div>
-                                                                    <button class="close" title="Remove">
-                                                                        <i class="fa fa-close"></i>
-                                                                    </button>
-                                                                </li>
-                                                            @endforeach
-                                                        </ul>
-                                                        <p class="minicart-total">SUBTOTAL: <span>Rs.
-                                                                {{ $total }}.00</span></p>
-                                                        <div class="minicart-button">
-                                                            <a href="{{ url('cart-view') }}"
-                                                                class="li-button li-button-fullwidth li-button-dark">
-                                                                <span>View Full Cart</span>
-                                                            </a>
-                                                            <a href="{{ url('checkout-view') }}"
-                                                                class="li-button li-button-fullwidth">
-                                                                <span>Checkout</span>
-                                                            </a>
-                                                        </div>
-                                                    @else
+                                                    <ul class="minicart-product-list">
+                                                        @if (isset($cart_items) && !empty($cart_items))
+                                                        @foreach ($cart_items as $item)
+                                                            <li>
+                                                                <a href="" class="minicart-product-image">
+                                                                    <img class="minicart-image"
+                                                                        src="{{ 'storage/products/' . $item->product->main_image }}"
+                                                                        alt="cart products">
+                                                                </a>
+                                                                <div class="minicart-product-details">
+                                                                    <h6><a
+                                                                            href="single-product.html">{{ $item->product->name }}</a>
+                                                                    </h6>
+                                                                    <span>{{ $item->product->price }} x
+                                                                        {{ $item->qty }}</span>
+                                                                </div>
+                                                                <button class="close" title="Remove">
+                                                                    <i class="fa fa-close"></i>
+                                                                </button>
+                                                            </li>
+                                                        @endforeach
+                                                        @else
                                                         <p class="text-center">Empty Cart</p>
+                                                        @endif
+                                                    </ul>
+                                                    @if (isset($cart_items) && !empty($cart_items))
+                                                    <p class="minicart-total">SUBTOTAL: <span>Rs. {{ $total }}.00</span></p>
+                                                    <div class="minicart-button">
+                                                        <a href="{{ url('cart-view') }}"
+                                                            class="li-button li-button-fullwidth li-button-dark">
+                                                            <span>View Full Cart</span>
+                                                        </a>
+                                                        <a href="{{ url('checkout-view') }}"
+                                                            class="li-button li-button-fullwidth">
+                                                            <span>Checkout</span>
+                                                        </a>
+                                                    </div>
                                                     @endif
                                                 </div>
                                             </li>

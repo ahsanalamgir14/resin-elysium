@@ -111,9 +111,13 @@
                                             </div>
                                             <div class="add-actions">
                                                 <ul class="add-actions-link">
-                                                    <li class="add-cart active"><a href="javascript:void(0)"
-                                                            onclick="add_to_cart(this, {{ $product->id }})">Add to
-                                                            cart</a></li>
+                                                    <li class="add-cart active">
+                                                        @if(!isset($product->quotes))
+                                                        <a href="javascript:void(0)" onclick="add_to_cart(this, {{ $product->id }})">Add to cart</a>
+                                                        @else
+                                                        <a href="javascript:void(0)" onclick="loadAddToCartModal({{ $product }})">Add to Cart</a>
+                                                        @endif
+                                                    </li>
                                                     <li><a class="links-details" href="wishlist.html"><i
                                                                 class="fa fa-heart-o"></i></a></li>
                                                     <li><a href="#" title="quick view" class="quick-view-btn"
@@ -231,10 +235,13 @@
                                                     </div>
                                                     <div class="add-actions">
                                                         <ul class="add-actions-link">
-                                                            <li class="add-cart active"><a href="javascript:void(0)"
-                                                                    onclick="add_to_cart(this, {{ $product->id }})">Add
-                                                                    to
-                                                                    cart</a></li>
+                                                            <li class="add-cart active">
+                                                                @if(!isset($product->quotes))
+                                                                <a href="javascript:void(0)" onclick="add_to_cart(this, {{ $product->id }})">Add to cart</a>
+                                                                @else
+                                                                <a href="javascript:void(0)" onclick="loadAddToCartModal({{ $product }})">Add to Cart</a>
+                                                                @endif
+                                                            </li>
                                                             <li><a class="links-details" href="wishlist.html"><i
                                                                         class="fa fa-heart-o"></i></a></li>
                                                             <li><a href="#" title="quick view"
@@ -291,10 +298,13 @@
                                                         </div>
                                                         <div class="add-actions">
                                                             <ul class="add-actions-link">
-                                                                <li class="add-cart active"><a href="javascript:void(0)"
-                                                                        onclick="add_to_cart(this, {{ $product->id }})">Add
-                                                                        to
-                                                                        cart</a></li>
+                                                                <li class="add-cart active">
+                                                                    @if(!isset($product->quotes))
+                                                                    <a href="javascript:void(0)" onclick="add_to_cart(this, {{ $product->id }})">Add to cart</a>
+                                                                    @else
+                                                                    <a href="javascript:void(0)" onclick="loadAddToCartModal({{ $product }})">Add to Cart</a>
+                                                                    @endif
+                                                                </li>
                                                                 <li><a class="links-details" href="wishlist.html"><i
                                                                             class="fa fa-heart-o"></i></a></li>
                                                                 <li><a href="#" title="quick view"
@@ -409,9 +419,13 @@
                                                     </div>
                                                     <div class="add-actions">
                                                         <ul class="add-actions-link">
-                                                            <li class="add-cart active"><a href="javascript:void(0)"
-                                                                    onclick="add_to_cart(this, {{ $product->id }})">Add
-                                                                    to cart</a></li>
+                                                            <li class="add-cart active">
+                                                                @if(!isset($product->quotes))
+                                                                <a href="javascript:void(0)" onclick="add_to_cart(this, {{ $product->id }})">Add to cart</a>
+                                                                @else
+                                                                <a href="javascript:void(0)" onclick="loadAddToCartModal({{ $product }})">Add to Cart</a>
+                                                                @endif
+                                                            </li>
                                                             <li><a class="links-details" href="wishlist.html"><i
                                                                         class="fa fa-heart-o"></i></a></li>
                                                             <li><a href="#" title="quick view"
@@ -490,9 +504,13 @@
                                             </div>
                                             <div class="add-actions">
                                                 <ul class="add-actions-link">
-                                                    <li class="add-cart active"><a href="javascript:void(0)"
-                                                            onclick="add_to_cart(this, {{ $product->id }})">Add
-                                                            to cart</a></li>
+                                                    <li class="add-cart active">
+                                                        @if(!isset($product->quotes))
+                                                        <a href="javascript:void(0)" onclick="add_to_cart(this, {{ $product->id }})">Add to cart</a>
+                                                        @else
+                                                        <a href="javascript:void(0)" onclick="loadAddToCartModal({{ $product }})">Add to Cart</a>
+                                                        @endif
+                                                    </li>
                                                     <li><a class="links-details" href="wishlist.html"><i
                                                                 class="fa fa-heart-o"></i></a></li>
                                                     <li><a href="#" title="quick view" class="quick-view-btn"
@@ -652,5 +670,20 @@
             </div>
         </div>
         <!-- Quick View | Modal Area End Here -->
+        <!-- Add to cart | Modal Area Start Here -->
+        <div class="modal modal-wrapper" id="addToCartHome">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <div class="modal-header">
+                        <h3 class="card-title">Add or Review Details</h3>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

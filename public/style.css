@@ -926,6 +926,7 @@ textarea:focus {
 
 .product-area .owl-carousel .owl-item {
 	padding: 25px 0;
+	padding-left: 17px;
 }
 
 .product-area .owl-carousel .owl-stage-outer {

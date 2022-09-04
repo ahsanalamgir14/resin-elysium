@@ -177,3 +177,7 @@ td.actions {
 .order-actions {
     height: 70px !important;
 }
+
+.content-header {
+    padding: 15px 10px 0px !important;
+}

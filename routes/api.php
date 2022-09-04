@@ -29,6 +29,7 @@ Route::post('search', [HomeController::class, 'search'])->name('search');
 Route::get('get-states', [CommonController::class, 'get_states']);
 Route::get('get-cities', [CommonController::class, 'get_cities']);
 Route::post('products-filter', [ProductController::class, 'apply_filters']);
+Route::get('get-cart-items', [CartController::class, 'get_cart_items']);
 Route::post('update-cart', [CartController::class, 'update']);
 Route::post('delete-cart-item', [CartController::class, 'destroy']);
 Route::post('change-order-status', [OrderController::class, 'change_order_status']);
