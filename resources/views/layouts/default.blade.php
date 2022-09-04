@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" id="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" type="image/png" href="https://i.imgur.com/M5g3PmG.png">
     <title>@yield('title')</title>
 
     <!-- Google Font: Source Sans Pro -->
@@ -155,7 +156,7 @@
             <a href="index3.html" class="brand-link">
                 <img src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">Admin Dashboard</span>
+                <span class="brand-text font-weight-light">Resin Dashboard</span>
             </a>
 
             <!-- Sidebar -->

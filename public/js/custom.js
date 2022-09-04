@@ -447,3 +447,113 @@ function updateQuotes() {
 
     $(html).insertBefore(section);
 }
+
+function loadAddToCartModal(product) {
+    let body = '<div class="row">' +
+                    '<div class="col-lg-12">' +
+                        '<p>This Product require ' + product.no_of_quotes + ' Fields to insert or review. Following quotes will be printed on your Art work.</p>' +
+                    '</div>' +
+                '</div>';
+    body += `<div class="row">
+                <input id="no_of_quotes" value="${product.no_of_quotes}" name="no_of_quotes[]" type="hidden">
+                    <div class="col-md-12">`;
+    product.quotes.forEach(function (quote, key) {
+        body += `<div class="row" id="dynamic-quotes">
+                            <div class="col-md-12 form-group">
+                                <label for="quote-${key + 1}" class="control-label">Quote ${key + 1}</label>
+                                <input id="quote" value="${quote}" name="quotes[]" type="text"
+                                    class="form-control" >
+                            </div>
+                        </div>`;
+    });
+    body += `</div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 float-right">
+                        <div class="feedback-btn pb-15">
+                            <a href="javascript:void(0)" class="add-to-cart" type="button" onclick="add_to_cart(this, ${product.id})">Add to cart</a>
+                            <a href="#" class="close" data-dismiss="modal" aria-label="Close">Close</a>
+                        </div>
+                    </div>
+                </div>`;
+
+    $('#addToCartHome .modal-body').html(body);
+    $('#addToCartHome').modal('show');
+}
+
+$(function () {
+    let html = '';
+    $.ajax({
+        url: 'api/get-cart-items',
+        method: 'GET',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (data) {
+            if (data.items != 0) {
+                $('.cart-item-count').html(data.items);
+                let totalHtml = `Rs. ${data.cart_total}.00 <span class="cart-item-count">${data.items}</span>`;
+                $('.item-text').html(totalHtml);
+            }
+            if (data.cart_items.length > 0) {
+                data.cart_items.forEach(function (item, index) {
+                    html += `<li>
+                                <a href="" class="minicart-product-image">
+                                    <img class="minicart-image"
+                                        src="storage/products/${item.main_image}"
+                                        alt="cart products">
+                                </a>
+                                <div class="minicart-product-details">
+                                    <h6><a href="single-product.html">${item.name}</a></h6>
+                                    <span>${item.price} x ${item.qty}</span>
+                                </div>
+                                <button class="close" title="Remove">
+                                    <i class="fa fa-close"></i>
+                                </button>
+                            </li>`;
+                });
+                $('.minicart-product-list').html(html);
+                let html2 = `<p class="minicart-total">SUBTOTAL: <span>Rs.  ${data.cart_total}.00</span></p>
+                            <div class="minicart-button">
+                                <a href="{{ url('cart-view') }}"
+                                    class="li-button li-button-fullwidth li-button-dark">
+                                    <span>View Full Cart</span>
+                                </a>
+                                <a href="/checkout-view"
+                                    class="li-button li-button-fullwidth">
+                                    <span>Checkout</span>
+                                </a>
+                            </div>`;
+                $('.minicart').append(html2);
+            }
+        }
+    });
+});
+
+$(function () {
+    $("#example1").DataTable({
+         lengthMenu: [
+            [10, 25, 50, 100, -1],
+            [10, 25, 50, 100, 'All'],
+        ],
+        "order": [[ 1, 'asc' ]],
+        "paging": true,
+        "lengthChange": true,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": true,
+        "responsive": true,
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+        "select": true,
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+    });
+});

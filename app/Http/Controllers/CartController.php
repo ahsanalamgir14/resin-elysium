@@ -194,4 +194,29 @@ class CartController extends Controller
         $data['categories'] = Category::all();
         return view('front.cart-view', $data);
     }
+
+    public function get_cart_items(Request $request)
+    {
+        if (Auth::check()) {
+            $user_id = $request->user()->id;
+        } else {
+            if (Cookie::has('guest_user_id')) {
+                $user_id = Cookie::get('guest_user_id');
+            }
+        }
+        if ($user_id) {
+            $total_price = 0;
+            $cart_items = get_user_cart_items($user_id);
+            foreach ($cart_items as $list) {
+                $total_price += ($list->qty * $list->price);
+            }
+        }
+        return response()->json([
+            'status' => true, 
+            'user_id' => $user_id,
+            'cart_items' => $cart_items,
+            'items' => count($cart_items),
+            'cart_total'=>$total_price
+        ]);
+    }
 }
