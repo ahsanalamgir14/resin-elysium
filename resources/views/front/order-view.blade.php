@@ -154,13 +154,13 @@
                                             <tbody>
                                                 @foreach ($order_items as $item)
                                                     <tr class='clickable-row'
-                                                        data-href='/admin/manage-orders/{{ $item->id }}'
+                                                        data-href='/admin/manage-orders/{{ $item['id'] }}'
                                                         role="button">
-                                                        <td>{{ $item['product']->name }}</td>
-                                                        <td>{{ $item['product']->SKU }}</td>
-                                                        <td>Rs. {{ $item->price }}</td>
-                                                        <td>{{ $item->qty }}</td>
-                                                        <td>Rs. {{ $item->price * $item->qty }}/-</td>
+                                                        <td>{{ $item['name'] }}</td>
+                                                        <td>{{ $item['SKU'] }}</td>
+                                                        <td>Rs. {{ $item['price'] }}</td>
+                                                        <td>{{ $item['qty'] }}</td>
+                                                        <td>Rs. {{ $item['price'] * $item['qty'] }}/-</td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>

@@ -38,7 +38,7 @@ class CategoryController extends Controller
         $request->validate([
             'name' => 'required',
             'slug' => 'required',
-            'image' => 'required',
+            'image' => 'required|mimes:jpeg,png,jpg,gif,svg|max:10240',
             'is_home' => 'required',
             'status' => 'required',
         ]);

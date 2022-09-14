@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\CustomerController;
 
 /*
 |--------------------
@@ -33,3 +34,5 @@ Route::get('get-cart-items', [CartController::class, 'get_cart_items']);
 Route::post('update-cart', [CartController::class, 'update']);
 Route::post('delete-cart-item', [CartController::class, 'destroy']);
 Route::post('change-order-status', [OrderController::class, 'change_order_status']);
+Route::post('get-user-details', [CustomerController::class, 'get_user_details']);
+Route::post('get-product-details', [ProductController::class, 'get_product_details']);

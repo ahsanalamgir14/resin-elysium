@@ -60,7 +60,7 @@ $('tr[data-href]').on("click", function (e) {
 
 
 function add_to_cart(el, product_id) {
-    
+
     k = 0;
     var quotes = [];
     var qty = $(el).parent().find("input").val();
@@ -409,9 +409,15 @@ $('#orderForm :input').change(function (e) {
     $('.stripe-error').addClass('hide');
 });
 
+$(document).on('change', '.variable_priority', function () {
+    console.log(this);
+    // alert('Select change');
+});
 
 $('#no_of_quotes').on('change', function () {
+    // console.log('quotes called');
     var i = $('#no_of_quotes').val();
+    // alert(i);
 
     var contentToRemove = document.querySelectorAll("#dynamic-quotes");
     // var values = $("input[name='quotes[]']")
@@ -450,10 +456,10 @@ function updateQuotes() {
 
 function loadAddToCartModal(product) {
     let body = '<div class="row">' +
-                    '<div class="col-lg-12">' +
-                        '<p>This Product require ' + product.no_of_quotes + ' Fields to insert or review. Following quotes will be printed on your Art work.</p>' +
-                    '</div>' +
-                '</div>';
+        '<div class="col-lg-12">' +
+        '<p>This Product require ' + product.no_of_quotes + ' Fields to insert or review. Following quotes will be printed on your Art work.</p>' +
+        '</div>' +
+        '</div>';
     body += `<div class="row">
                 <input id="no_of_quotes" value="${product.no_of_quotes}" name="no_of_quotes[]" type="hidden">
                     <div class="col-md-12">`;
@@ -532,11 +538,11 @@ $(function () {
 
 $(function () {
     $("#example1").DataTable({
-         lengthMenu: [
+        lengthMenu: [
             [10, 25, 50, 100, -1],
             [10, 25, 50, 100, 'All'],
         ],
-        "order": [[ 1, 'asc' ]],
+        "order": [[1, 'asc']],
         "paging": true,
         "lengthChange": true,
         "searching": true,
@@ -557,3 +563,81 @@ $(function () {
         "responsive": true,
     });
 });
+
+function getUserDetails(id) {
+    $.ajax({
+        url: `/api/get-user-details?id=${id}`,
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (data) {
+            if (data.status) {
+                $.each(data.data, function (prop, val) {
+                    $(`#${prop}`).val(val);
+                });
+            }
+        }
+    });
+}
+
+function getProductsForm($id) {
+    alert($id);
+}
+
+function getProductDetails() {
+    var product_ids = $('#product_id_select').val();
+    console.log(product_ids);
+    $.ajax({
+        url: `/api/get-product-details`,
+        method: 'POST',
+        data: {
+            product_ids: product_ids
+        },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (data) {
+            if (data.status) {
+                products = data.data;
+                if (products) {
+                    $('[id^="product-copy-"]').remove();
+                    for (var i = 1; i < products.length; i++) {
+                        var cloned = $('#product-clone').clone();
+                        cloned.attr('id', `product-copy-${i + 1}`);
+                        cloned.find('.card-title').html(`Product ${i + 1} Details`);
+                        cloned.insertBefore("#product-copy");
+                    }
+                    products.forEach(function (p, index) {
+                        console.log('products', p);
+                        if (index <= 1) {
+                            var div = $(`#product-clone`);
+                        } else {
+                            var div = $(`#product-copy-${index + 1}`);
+                        }
+                        $.each(p, function (prop, val) {
+                            if (prop === 'no_of_quotes') {
+                                div.find(`#${prop}`).val(val).trigger('change');
+                                div.find(`#${prop}`).prop('readonly', true);
+                            } else if (prop === 'main_image') {
+                                div.find(`#${prop}`).attr("src", `/storage/products/${val}`);
+                            } else if (prop === 'images') {
+                                div.find('#images img').remove();
+                                $.each(p.images, function (i, image) {
+                                    if (i < 5) {
+                                        let html = `<img width="50px" style="margin-right:10px;" src="/storage/product_images/${image}" alt="">`;
+                                        div.find('#images').prepend(html);
+                                    }
+                                });
+                            } else {
+                                div.find(`#${prop}`).val(val);
+                                div.find(`#${prop}`).prop('readonly', true);
+                            }
+                        });
+                    });
+                }
+
+            }
+        }
+    });
+}

@@ -40,6 +40,7 @@
                                 <thead>
                                     <tr>
                                         <th>#Order ID</th>
+                                        {{-- <th class="li-product-thumbnail">Main Image</th> --}}
                                         <th>First Name</th>
                                         <th>Last Name</th>
                                         <th>Email</th>
@@ -49,10 +50,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($data as $order)
+                                    @foreach ($data as $key=>$order)
                                         <tr class='clickable-row' data-href='/admin/manage-orders/{{ $order->id }}'
                                             role="button">
                                             <td>{{ $order->id }}</td>
+                                            {{-- <td class="li-product-thumbnail cart-image"><a href="#"><img src="{{'storage/products/'.$order['order_items'][$key]->main_image}}" alt="{{$order['order_items'][$key]->main_image}}"></a></td> --}}
                                             <td>{{ $order->first_name }}</td>
                                             <td>{{ $order->last_name }}</td>
                                             <td>{{ $order->email }}</td>
