@@ -11,6 +11,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Http\Controllers\Auth\VerificationController;
 
 class RegisterController extends Controller
 {
@@ -79,9 +80,10 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $this->validator($request->all())->validate();
-        event(new Registered($user = $this->create($request->all())));
+        $user = $this->create($request->all());
+        event(new Registered($user));
         notify()->success('Registered Successfully! Please go to your email to verify your account.');
         return $this->registered($request, $user)
-            ?: redirect()->route('verification.notice', $request);
+            ?: view('auth.verify', $user)->with('resent', true);
     }
 }
