@@ -335,7 +335,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <!-- Begin Li's Static Home Image Area -->
-                        <div class="li-static-home-image"></div>
+                        <div class="li-static-home-image" style="border: 3px solid; border-color: #fed700;"></div>
                         <!-- Li's Static Home Image Area End Here -->
                         <!-- Begin Li's Static Home Content Area -->
                         <div class="li-static-home-content">

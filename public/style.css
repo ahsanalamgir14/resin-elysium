@@ -3225,7 +3225,8 @@ textarea:focus {
 /*  2.7 Li's Static Home Banner
 /*----------------------------------------*/
 .li-static-home-image {
-	background-image: url(storage/images/bg-banner/4.jpg);
+	/* background-image: url(storage/images/bg-banner/4.jpg); */
+	background-image: url(storage/home-images/main_banner_01.png);
 	background-size: cover;
 	height: 400px;
 	background-repeat: no-repeat;
