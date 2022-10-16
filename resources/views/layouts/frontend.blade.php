@@ -50,8 +50,8 @@
     <!-- <link href="{{ URL::asset('css/custom.css') }}" rel="stylesheet" type="text/css"> -->
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
     {{-- chaty link --}}
-    <script id="pixel-chaty" async="true" src="https://cdn.chaty.app/pixel.js?id=kStfjluw"></script>
-    <script id="pixel-chaty" async="true" src="https://cdn.chaty.app/pixel.js?id=kStfjluw"></script>
+    {{-- <script id="pixel-chaty" async="true" src="https://cdn.chaty.app/pixel.js?id=kStfjluw"></script>
+    <script id="pixel-chaty" async="true" src="https://cdn.chaty.app/pixel.js?id=kStfjluw"></script> --}}
 </head>
 
 <body>
@@ -681,7 +681,46 @@
     <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
     {{-- chatbot --}}
     <script src="//code.tidio.co/k6rsxlhnnrieqag12dvbkxymbzdqjbek.js" async></script>
-    <script id="pixel-chaty" async="true" src="https://cdn.chaty.app/pixel.js?id=kStfjluw"></script>
+    {{-- <script id="pixel-chaty" async="true" src="https://cdn.chaty.app/pixel.js?id=kStfjluw"></script> --}}
+    <script>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+        var pusher = new Pusher('db0897b490da0fb82143', {
+        cluster: 'ap2'
+        });
+        var channel = pusher.subscribe('my-channel');
+        channel.bind('my-event', function(data) {
+        alert(JSON.stringify(data));
+        });
+    </script>
+    <script>
+        $(function() {
+            $('#summernote').summernote()
+        })
+    </script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyAPcn5Iv4h5N0aMHlWVpBW8pehPKqhdLvw",
+          authDomain: "resinelysium-82b20.firebaseapp.com",
+          projectId: "resinelysium-82b20",
+          storageBucket: "resinelysium-82b20.appspot.com",
+          messagingSenderId: "358781846",
+          appId: "1:358781846:web:3c13750973c0494037c3b7",
+          measurementId: "G-68SV57560L"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+      </script>
 </body>
 
 </html>

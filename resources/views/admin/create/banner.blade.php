@@ -1,5 +1,5 @@
 @extends('layouts.default')
-@section('title', 'Banners')
+@section('title', 'Add Banner')
 @section('banners', 'active')
 
 @section('content')

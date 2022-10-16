@@ -18,6 +18,10 @@ class Order extends Model
     {
         return $this->belongsTo('App\Models\User','user_id','id');
     }
+    public function order_items()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
     public function order_status()
     {
         return $this->belongsTo('App\Models\OrderStatus','order_status_id','id');

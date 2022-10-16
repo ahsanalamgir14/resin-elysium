@@ -104,11 +104,12 @@ class VerificationController extends Controller
         }
 
         $user->sendEmailVerificationNotification();
+        notify()->success('Verification Email Resent!');
 
         return $request->wantsJson()
 
             ? new JsonResponse([], 202)
 
-            : Redirect::back()->with(['resent' => true, 'user' => $user]);
+            : view('auth.verify', $user)->with(['resent' => true, 'user' => $user]);
     }
 }

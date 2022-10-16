@@ -1,5 +1,5 @@
 @extends('layouts.default')
-@section('title', 'Customers')
+@section('title', 'Add Customer')
 @section('customers', 'active')
 
 @section('content')

@@ -78,7 +78,7 @@
                                     {{-- <span>{!! Str::limit($product->desc, 300, '...') !!}</span> --}}
                                 </p>
                             </div>
-                            <div class="product-variants">
+                            {{-- <div class="product-variants">
                                 <div class="produt-variants-size">
                                     <label>Dimension</label>
                                     <select class="nice-select">
@@ -87,7 +87,7 @@
                                         <option value="3" title="L">80x120cm</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="single-add-to-cart">
                                 <form id="add-to-cart-form" class="cart-quantity">
                                     <div class="quantity">

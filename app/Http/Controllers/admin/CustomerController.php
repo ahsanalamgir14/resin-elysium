@@ -124,4 +124,10 @@ class CustomerController extends Controller
         notify()->success('Customer Updated Successfully.');
         return redirect('admin/customer');
     }
+
+    public function get_user_details(Request $request)
+    {
+        $user = User::find($request->id);
+        return response()->json(['status' => true, 'data' => $user]);
+    }
 }

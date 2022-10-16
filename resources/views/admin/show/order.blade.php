@@ -139,7 +139,7 @@
                                             <h2 class="" style="font-weight: bold">Products Information:</h2>
                                         </div>
                                         <div class="row">
-                                            <table id="example1" class="table table-bordered">
+                                            <table class="table table-bordered">
                                                 <thead>
                                                     <tr>
                                                         <th>Product Name</th>
@@ -152,18 +152,21 @@
                                                 <tbody>
                                                     @foreach ($order_items as $item)
                                                         <tr class='clickable-row'
-                                                            data-href='/admin/manage-orders/{{ $item->id }}'
+                                                            data-href='/admin/manage-orders/{{ $item['id'] }}'
                                                             role="button">
-                                                            <td>{{ $item['product']->name }}</td>
-                                                            <td>{{ $item['product']->SKU }}</td>
-                                                            <td>Rs. {{ $item->price }}</td>
-                                                            <td>{{ $item->qty }}</td>
-                                                            <td>Rs. {{ $item->price * $item->qty }}/-</td>
+                                                            <td>{{ $item['name'] }}</td>
+                                                            <td>{{ $item['SKU'] }}</td>
+                                                            <td>Rs. {{ $item['price'] }}</td>
+                                                            <td>{{ $item['qty'] }}</td>
+                                                            <td>Rs. {{ $item['price'] * $item['qty'] }}/-</td>
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
+                                        {{-- <div class="col-md-12 mb-4">
+                                            <h2 class="" style="font-weight: bold">Quotations: {{$order}}</h2>
+                                        </div> --}}
                                     </div>
                                     <div class="col-md-12 mb-4">
                                         <h2 class="" style="font-weight: bold">Summary:</h2>
@@ -172,11 +175,11 @@
                                 <div class="row">
                                     <div class="col-md-8">
 
-                                        <table id="example1" class="table table-bordered">
+                                        <table class="table table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th>Sub Total Name</th>
-                                                    <th>Rs. {{ $total_amount }}/-</th>
+                                                    <th>Amount</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

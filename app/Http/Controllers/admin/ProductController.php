@@ -42,8 +42,8 @@ class ProductController extends Controller
         // dd($request->all());
         $request->validate([
             'name' => 'required',
-            'main_image' => 'required',
-            'main_image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'main_image' => 'required|mimes:jpeg,png,jpg,gif,svg|max:10240',
+            // 'main_image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'category_id' => 'required',
             'slug' => 'required',
             'type' => 'required',
@@ -61,8 +61,7 @@ class ProductController extends Controller
         if ($request->hasFile('main_image')) {
             $random = uniqid();
             $image = $request->file('main_image');
-            $ext = $image->extension();
-            $image_name = $random . "." . $ext;
+            $image_name = $random . "." . $image->getClientOriginalExtension();
             $image->storeAs('public/products', $image_name);
             $data['main_image'] = $image_name;
         }
@@ -249,5 +248,12 @@ class ProductController extends Controller
 
         return $filters;
         $result['categories'] = Category::with('sub_categories')->get();
+    }
+
+    public function get_product_details(Request $request)
+    {
+        // return $request->product_ids;
+        $products = Product::whereIn('id',$request->product_ids)->get();
+        return response()->json(['status' => true, 'data' => $products]);
     }
 }
