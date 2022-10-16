@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
+
+use App\Http\Controllers\Controller;
 
 use App\Models\Prospect;
 use Illuminate\Http\Request;
@@ -14,7 +16,8 @@ class ProspectController extends Controller
      */
     public function index()
     {
-        //
+        $result['data'] = Prospect::all();
+        return view('admin.prospects', $result);
     }
 
     /**

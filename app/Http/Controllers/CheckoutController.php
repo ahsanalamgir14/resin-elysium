@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use stdClass;
 use Carbon\Carbon;
 use App\Models\Cart;
 use App\Models\User;
@@ -103,9 +104,10 @@ class CheckoutController extends Controller
         } else {
             if (Cookie::has('guest_user_id')) {
                 $guest_user_id = Cookie::get('guest_user_id');
+                // dd('die');
                 $cart = Cart::with('product')->where(['user_id' => $guest_user_id])->get();
                 $data['data'] = [];
-                $prospect = $data['data'];
+                $prospect = (object)$data['data'];
                 $prospect->user_id = $guest_user_id;
             } else {
                 return redirect()->route('home');
@@ -123,6 +125,20 @@ class CheckoutController extends Controller
         // return $ip_details   ;
         $old_prospect = Prospect::where('ip', $ip)->first();
         if ($old_prospect) {
+            if (Auth::check()) {
+                $old_prospect->user_id = $prospect->user_id;
+                $old_prospect->first_name = $prospect->first_name;
+                $old_prospect->last_name = $prospect->last_name;
+                $old_prospect->email = $prospect->email;
+                $old_prospect->mobile = $prospect->mobile;
+            }
+            else {
+                $old_prospect->user_id = $prospect->user_id;
+                $old_prospect->first_name = '';
+                $old_prospect->last_name = '';
+                $old_prospect->email = '';
+                $old_prospect->mobile = '';
+            }
             $old_prospect->products = $cart;
             $old_prospect->ip_details = $ip_details;
             $old_prospect->last_visited = Carbon::now();
@@ -132,7 +148,7 @@ class CheckoutController extends Controller
             $prospect->ip_details = $ip_details;
             $prospect->products = $cart;
             $prospect->last_visited = Carbon::now();
-            Prospect::create((array)$prospect->toArray());
+            Prospect::create((array)$prospect);
         }
         $data['cart_items'] = $cart;
         $data['total'] = $total;

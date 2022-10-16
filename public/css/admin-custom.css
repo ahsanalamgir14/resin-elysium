@@ -181,3 +181,7 @@ td.actions {
 .content-header {
     padding: 15px 10px 0px !important;
 }
+
+.dtr-data {
+    display: flex !important;
+}

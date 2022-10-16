@@ -1,21 +1,21 @@
 <?php
 
+use App\Events\MyEvent;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\admin\AdminController;
-use App\Http\Controllers\admin\CategoryController;
-use App\Http\Controllers\admin\CouponController;
-use App\Http\Controllers\admin\SizeController;
-use App\Http\Controllers\admin\ProductController;
-use App\Http\Controllers\admin\CustomerController;
-use App\Http\Controllers\admin\HomeBannerController;
-use App\Http\Controllers\front\FrontController;
-use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CommonController;
-use App\Http\Controllers\ContactController;
 use App\Http\Controllers\StripeController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\admin\OrderController;
+use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\admin\CustomerController;
+use App\Http\Controllers\admin\ProspectController;
+use App\Http\Controllers\admin\HomeBannerController;
+use App\Http\Controllers\WebNotificationController;
 
 
 /*
@@ -51,6 +51,9 @@ Route::post('/stripe-payment', [StripeController::class, 'handlePost'])->name('s
 Route::get('logout', [HomeController::class, 'logout']);
 Route::group(['middleware' => ['auth']], function () {
     Route::post('place-order', [OrderController::class, 'place_order'])->name('place-order');
+    Route::get('/push-notification', [WebNotificationController::class, 'index'])->name('push-notification');
+    Route::post('/store-token', [WebNotificationController::class, 'storeToken'])->name('store.token');
+    Route::post('/send-web-notification', [WebNotificationController::class, 'sendWebNotification'])->name('send.web-notification');
 });
 Route::resource('contact-us', ContactController::class);
 Route::post('store-query', [ContactController::class, 'store'])->name('save_query');
@@ -59,6 +62,7 @@ Route::get('about-us', [CommonController::class, 'about_us']);
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::resource('manage-customers', CustomerController::class);
     Route::resource('manage-admins', AdminController::class);
+    Route::resource('manage-prospects', ProspectController::class);
     Route::resource('manage-banners', HomeBannerController::class);
     Route::resource('manage-products', ProductController::class);
     Route::resource('manage-orders', OrderController::class);
@@ -68,3 +72,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
 });
 
 Route::resource('contact-us', ContactController::class);
+
+Route::get('test', function () {
+    event(new MyEvent('hello world'));
+    return "Event has been sent!";
+});
